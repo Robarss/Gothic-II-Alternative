@@ -6,5 +6,5 @@ which I subsequently edited and remade into the Czech language of the original c
 
 Some scripts are implemented here from Gothic II L'hiver edition 1.6, Gothic I - Die Welt der Verurteilten, Gothic II Retruring 2.0, Gothic II plus
 
-I would like to especially thank you for the help with creation and editing from Fafkes and from the translation part Auroren.
+I would like to especially thank you for the help with creation and editing from Fafkes and from the translation part Auronen.
 
