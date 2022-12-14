@@ -1,6 +1,6 @@
 # Gothic-II-Alternative-Scripts (v1.2)
 
-This mod contains the basic scripts from the mod https://www.moddb.com/mods/uscs-shield-mod/downloads/uscs-shield-eng
+This mod contains the basic scripts from the mod USCS Shields https://www.moddb.com/mods/uscs-shield-mod/downloads/uscs-shield-eng
 which I subsequently edited and remade into the Czech language of the original cz scripts.
 
 
