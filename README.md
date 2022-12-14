@@ -1,3 +1,3 @@
-# Gothic-II-Alternative
+# Gothic-II-Alternative-Scripts
 
 
