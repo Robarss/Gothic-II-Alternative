@@ -322,7 +322,7 @@ instance DIA_Jesper_Tuer(C_Info)
 
 func int DIA_Jesper_Tuer_Condition()
 {
-	if((MIS_CassiaRing == LOG_SUCCESS) && (Kapitel >= 3))
+	if((MIS_CassiaRing == LOG_SUCCESS) && (Kapitel >= 2))
 	{
 		return TRUE;
 	};
