@@ -43,14 +43,14 @@ func void B_GiveTradeInv_Hakon(var C_Npc slf)
 		CreateInvItems(slf,itsh_4shield,1);
 		CreateInvItems(slf,itsh_6shield,1);
 		CreateInvItems(slf,ItMi_Gold,100);
-		CreateInvItems(slf,ItMiSwordraw,5);
+		CreateInvItems(slf,ItMiSwordraw,1);
 		CreateInvItems(slf,ItBe_Addon_Prot_Point,1);
 		Hakon_ItemsGiven_Chapter_3 = TRUE;
 	};
 	if((Kapitel >= 4) && (Hakon_ItemsGiven_Chapter_4 == FALSE))
 	{
 		CreateInvItems(slf,ItMi_Gold,150);
-		CreateInvItems(slf,ItMiSwordraw,2);
+		CreateInvItems(slf,ItMiSwordraw,1);
 		CreateInvItems(slf,ithl_helm6,1);
 		CreateInvItems(slf,ithl_helm14,1);
 		CreateInvItems(slf,ItBe_Addon_Prot_EDGE,1);

@@ -43,7 +43,6 @@ func void B_GiveTradeInv_Addon_Erol(var C_Npc slf)
 		CreateInvItems(slf,ItPl_Mana_Herb_02,3);
 		CreateInvItems(slf,ItPl_Health_Herb_02,3);
 		CreateInvItems(slf,ItPl_Temp_Herb,2);
-		CreateInvItems(slf,ItMiSwordraw,5);
 		CreateInvItems(slf,itsh_6shield,1);
 		Erol_ItemsGiven_Chapter_3 = TRUE;
 	};
