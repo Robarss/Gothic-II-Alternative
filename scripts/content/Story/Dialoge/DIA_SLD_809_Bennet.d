@@ -77,11 +77,12 @@ func void DIA_Bennet_TRADE_Info()
 	var int McArrowAmount;
 	AI_Output(other,self,"DIA_Bennet_TRADE_15_00");	//Mùžeš mi prodat nìjaké vìci na kování?
 	B_GiveTradeInv(self);
+	Npc_RemoveInvItems(self,ItMiSwordrawhot,100);
 	Npc_RemoveInvItems(self,ItRw_Bolt,Npc_HasItems(self,ItRw_Bolt));
-	McBolzenAmount = Kapitel * 50;
+	McBolzenAmount = Kapitel * 10;
 	CreateInvItems(self,ItRw_Bolt,McBolzenAmount);
 	Npc_RemoveInvItems(self,ItRw_Arrow,Npc_HasItems(self,ItRw_Arrow));
-	McArrowAmount = Kapitel * 50;
+	McArrowAmount = Kapitel * 10;
 	CreateInvItems(self,ItRw_Arrow,McArrowAmount);
 	AI_Output(self,other,"DIA_Bennet_TRADE_06_01");	//Co potøebuješ?
 	if(BennetLOG == FALSE)
@@ -919,7 +920,7 @@ instance DIA_Bennet_DJG_ARMOR_H(C_Info)
 	condition = DIA_Bennet_DJG_ARMOR_H_Condition;
 	information = DIA_Bennet_DJG_ARMOR_H_Info;
 	permanent = TRUE;
-	description = "Draèí rùdná zbroj. Ochrana: zbranì 150, šípy 150. (5000 zlaákù).";
+	description = "Draèí rùdná zbroj. Ochrana: zbranì 150, šípy 150. (10000 zlaákù).";
 };
 
 
@@ -934,11 +935,11 @@ func int DIA_Bennet_DJG_ARMOR_H_Condition()
 func void DIA_Bennet_DJG_ARMOR_H_Info()
 {
 	AI_Output(other,self,"DIA_Bennet_DJG_ARMOR_H_15_00");	//Dej mi to brnìní.
-	if(Npc_HasItems(other,ItMi_Gold) >= 5000)
+	if(Npc_HasItems(other,ItMi_Gold) >= 10000)
 	{
 		AI_Output(self,other,"DIA_Bennet_DJG_ARMOR_H_06_01");	//Tohle je nejlepší brnìní, jaké jsem kdy vyrobil.
 		AI_Output(self,other,"DIA_Bennet_DJG_ARMOR_H_06_02");	//Opravdový skvost.
-		B_GiveInvItems(other,self,ItMi_Gold,5000);
+		B_GiveInvItems(other,self,ItMi_Gold,10000);
 		CreateInvItems(self,itar_dragonss,1);
 		B_GiveInvItems(self,other,itar_dragonss,1);
 		Bennet_DIA_Bennet_DJG_ARMOR_H_permanent = TRUE;
@@ -1078,7 +1079,7 @@ func void DIA_Bennet_GetInnosEye_Info()
 	{
 		AI_Output(self,other,"DIA_Bennet_GetInnosEye_06_01");	//Ano, tady.
 		TEXT_Innoseye_Setting = TEXT_Innoseye_Setting_Repaired;
-		CreateInvItems(other,ItMi_InnosEye_Broken_Mis,1);
+		CreateInvItems(other,ItMi_InnosEye_Discharged_Mis,1);
 		AI_PrintScreen(Print_InnosEyeGet,-1,YPOS_ItemGiven,FONT_ScreenSmall,2);
 		AI_Output(self,other,"DIA_Bennet_GetInnosEye_06_02");	//Musel jsem tam zasadit nový kámen.
 		AI_Output(self,other,"DIA_Bennet_GetInnosEye_06_03");	//Pracoval jsem na nìm celou noc a teï vypadá jako nový.
@@ -1460,7 +1461,7 @@ instance DIA_BENNET_SELLWHAT(C_Info)
 	condition = dia_bennet_sellwhat_condition;
 	information = dia_bennet_sellwhat_info;
 	permanent = FALSE;
-	description = "Mohl bys my odìlat helmu na zbroji drakobijcù ?.";
+	description = "Mohl bys my oddìlat helmu na zbroji drakobijcù ?.";
 };
 
 
@@ -1533,7 +1534,7 @@ instance DIA_BENNET_MELTING(C_Info)
 	condition = dia_bennet_melting_condition;
 	information = dia_bennet_melting_info;
 	permanent = TRUE;
-	description = "Nauè mì tavení zbraní (cena: 15 VB)";
+	description = "Nauè mì tavení zbraní (cena: 30 VB)";
 };
 
 
@@ -1548,15 +1549,15 @@ func int dia_bennet_melting_condition()
 func void dia_bennet_melting_info()
 {
 	AI_Output(other,self,"DIA_Bennet_LEA_15_00");	//Nauè mì tavení zbraní.
-	if(hero.lp >= 15)
+	if(hero.lp >= 30)
 	{
-		hero.lp = hero.lp - 15;
+		hero.lp = hero.lp - 30;
 		B_TeachThiefTalent(self,other,NPC_TALENT_FORGE);
-		AI_Output(self,other,"DIA_Bennet_LEA_12_01");	//Nejdøív rozehøej výheò a potom vlož zbranì a nech je roztavit.
-		AI_Output(self,other,"DIA_Bennet_LEA_12_02");	//Z rezavé zbranì se dá udìlat jedena surová ocel a u skøetích to samé, ale musíš poèkat dýl než se roztavý.
-		AI_Output(self,other,"DIA_Bennet_LEA_12_04");	//A je to, nejlepší je surová železná ruda z té  se dá vyrobit mnohem víc surové ocele ale to zjistíš sám.
+		AI_Output(self,other,"DIA_Bennet_LEA_12_01");	//Nejdøív je nutné rozdìlat a oèistit skøetí nebo rezavé zbranì a potom teprve je hodíš do výhnì.
+		AI_Output(self,other,"DIA_Bennet_LEA_12_02");	//Ze tøí rozdìlaných zbraní se dá udìlat jedna surová ocel a u skøetích to samé, ale musíš poèkat delší dobu než se roztaví.
+		AI_Output(self,other,"DIA_Bennet_LEA_12_04");	//A je to, nejlepší je surová železná ruda z té se dá vyrobit mnohem víc surové ocele a to by bylo asi všechno.
 		Log_CreateTopic(TOPIC_TalentSmith,LOG_NOTE);
-		B_LogEntry(TOPIC_TalentSmith,"Umím tavit skøetí a rezavé zbranì.");
+		B_LogEntry(TOPIC_TalentSmith,"Bennet mì nauèil jak tavit skøetí a rezavé zbranì, nejprve je nutné je rozebrat a oèistit a tprve potom pøetavit na surovou ocel, na jednu ocel budu potøebovat 3x rozebrané staré rezavé železo.");
 		KNOWS_MELTINGLER = TRUE;
 		PrintScreen("Umím tavit skøetí a rezavé zbranì",-1,-1,"FONT_OLD_20_WHITE.TGA",1);
 	}
