@@ -477,8 +477,7 @@ instance ITSH_8SHIELD(C_Item)
 	on_unequip = unequip_shield;
 	visual = "tarczakrol1.3DS";
 	description = name;
-	text[0] = "Bonus síly a many:";
-	count[0] = 25;
+	text[0] = "";
 	text[1] = NAME_Prot_Edge;
 	count[1] = protection[PROT_EDGE];
 	text[2] = NAME_Prot_Point;

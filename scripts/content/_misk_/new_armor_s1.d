@@ -742,7 +742,7 @@ func void unequip_itar_kng_armor()
 
 instance ITAR_W2_TKNIGHT_GRD7(C_Item)
 {
-	name = "Okovaná Vengardská zbroj stráže ";
+	name = "Vengardská zbroj stráže ";
 	mainflag = ITEM_KAT_ARMOR;
 	flags = 0;
 	protection[PROT_EDGE] = 75;
@@ -756,10 +756,10 @@ instance ITAR_W2_TKNIGHT_GRD7(C_Item)
 	visual_change = "ARMOR_W2_TKNIGHT_GRD7";
 	visual_skin = 0;
 	material = MAT_LEATHER;
-	on_equip = equip_itar_pals_armor;
-	on_unequip = unequip_itar_pals_armor;
+	on_equip = equip_itar_w2_tknight_grd7;
+	on_unequip = unequip_itar_w2_tknight_grd7;
 	description = name;
-	text[0] = "Regeneruje 1 život za 7 sek.";
+	text[0] = "Mùže regenerovat 1 život za 7 sek.";
 	text[1] = NAME_Prot_Edge;
 	count[1] = protection[PROT_EDGE];
 	text[2] = NAME_Prot_Point;
@@ -778,8 +778,8 @@ func void equip_itar_w2_tknight_grd7()
 	Npc_ChangeAttribute(self,ATR_REGENERATEHP,-53);
 	if(Npc_IsPlayer(self))
 	{
-		SLDArmor_Equipped = TRUE;
-		if(SLD01_Equipped == TRUE)
+		MILArmor_Equipped = TRUE;
+		if(MIL01_Equipped == TRUE)
 		{
 			self.protection[PROT_EDGE] += BA_Bonus01;
 			self.protection[PROT_BLUNT] += BA_Bonus01;
@@ -795,8 +795,8 @@ func void unequip_itar_w2_tknight_grd7()
 	Npc_ChangeAttribute(self,ATR_REGENERATEHP,53);
 	if(Npc_IsPlayer(self))
 	{
-		SLDArmor_Equipped = FALSE;
-		if(SLD01_Equipped == TRUE)
+		MILArmor_Equipped = FALSE;
+		if(MIL01_Equipped == TRUE)
 		{
 			self.protection[PROT_EDGE] -= BA_Bonus01;
 			self.protection[PROT_BLUNT] -= BA_Bonus01;
@@ -829,7 +829,7 @@ instance ITAR_MAGICFIGHTER(C_Item)
 	on_equip = equip_itar_magicfighter;
 	on_unequip = unequip_itar_magicfighter;
 	description = name;
-	text[0] = "Regeneruje mágovy manu a život (1 bod za 1 sek. manu za 3 sek.)";
+	text[0] = "Mùže regenerovat manu a život (1 hp za 3 sek. manu za 1 sek.)";
 	text[1] = NAME_Prot_Edge;
 	count[1] = protection[PROT_EDGE];
 	text[2] = NAME_Prot_Point;
@@ -845,11 +845,11 @@ instance ITAR_MAGICFIGHTER(C_Item)
 
 func void equip_itar_magicfighter()
 {
-	if(hero.guild == GIL_KDF)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEHP,-57);
 	};
-	if(hero.guild == GIL_KDF)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEMANA,-59);
 	};
@@ -857,11 +857,11 @@ func void equip_itar_magicfighter()
 
 func void unequip_itar_magicfighter()
 {
-	if(hero.guild == GIL_KDF)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEHP,57);
 	};
-	if(hero.guild == GIL_KDF)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEMANA,59);
 	};
@@ -887,7 +887,7 @@ instance ITAR_DRAGONSS(C_Item)
 	on_equip = equip_itar_dragonss;
 	on_unequip = unequip_itar_dragonss;
 	description = name;
-	text[0] = "Drakobijci regeneruje život 1 bod za 1 sek.";
+	text[0] = "Mùže regenerovat život 1 bod za 1 sek.";
 	text[1] = NAME_Prot_Edge;
 	count[1] = protection[PROT_EDGE];
 	text[2] = NAME_Prot_Point;
@@ -903,7 +903,7 @@ instance ITAR_DRAGONSS(C_Item)
 
 func void equip_itar_dragonss()
 {
-	if(hero.guild == GIL_DJG)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEHP,-59);
 	};
@@ -911,7 +911,7 @@ func void equip_itar_dragonss()
 
 func void unequip_itar_dragonss()
 {
-	if(hero.guild == GIL_DJG)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEHP,59);
 	};
@@ -966,7 +966,7 @@ instance ITAR_PALUP(C_Item)
 	on_equip = equip_itar_palup;
 	on_unequip = unequip_itar_palup;
 	description = name;
-	text[0] = "Paladinùm regeneruje život 1 bod za 3 sek.";
+	text[0] = "Mùže regenerovat život 1 bod za 3 sek.";
 	text[1] = NAME_Prot_Edge;
 	count[1] = protection[PROT_EDGE];
 	text[2] = NAME_Prot_Point;
@@ -982,18 +982,16 @@ instance ITAR_PALUP(C_Item)
 
 func void equip_itar_palup()
 {
-	if(hero.guild == GIL_PAL)
-	{
-		Npc_ChangeAttribute(self,ATR_REGENERATEHP,-57);
-	};
+
+	Npc_ChangeAttribute(self,ATR_REGENERATEHP,-57);
+
 };
 
 func void unequip_itar_palup()
 {
-	if(hero.guild == GIL_PAL)
-	{
-		Npc_ChangeAttribute(self,ATR_REGENERATEHP,57);
-	};
+
+	Npc_ChangeAttribute(self,ATR_REGENERATEHP,57);
+
 };
 
 
@@ -1190,7 +1188,7 @@ instance ITAR_PALINNOS(C_Item)
 	on_equip = equip_itar_palinnos;
 	on_unequip = unequip_itar_palinnos;
 	description = name;
-	text[0] = "Paladinùm regeneruje život a manu (1 bod za 1 sek. manu za 3 sek.)";
+	text[0] = "Mùže regenerovat život a manu (1 hp za 1 sek. manu za 3 sek.)";
 	text[1] = NAME_Prot_Edge;
 	count[1] = protection[PROT_EDGE];
 	text[2] = NAME_Prot_Point;
@@ -1206,11 +1204,11 @@ instance ITAR_PALINNOS(C_Item)
 
 func void equip_itar_palinnos()
 {
-	if(hero.guild == GIL_PAL)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEHP,-59);
 	};
-	if(hero.guild == GIL_PAL)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEMANA,-57);
 	};
@@ -1218,11 +1216,11 @@ func void equip_itar_palinnos()
 
 func void unequip_itar_palinnos()
 {
-	if(hero.guild == GIL_PAL)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEHP,59);
 	};
-	if(hero.guild == GIL_PAL)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEMANA,57);
 	};
@@ -1248,7 +1246,7 @@ instance ITAR_PALINNOS2(C_Item)
 	on_equip = equip_itar_palinnos2;
 	on_unequip = unequip_itar_palinnos2;
 	description = name;
-	text[0] = "Paladinùm regeneruje život a manu (1 bod za 1 sek. manu za 3 sek.)";
+	text[0] = "Mùže regenerovat život a manu (1 hp za 1 sek. manu za 3 sek.)";
 	text[1] = NAME_Prot_Edge;
 	count[1] = protection[PROT_EDGE];
 	text[2] = NAME_Prot_Point;
@@ -1264,11 +1262,11 @@ instance ITAR_PALINNOS2(C_Item)
 
 func void equip_itar_palinnos2()
 {
-	if(hero.guild == GIL_PAL)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEHP,-59);
 	};
-	if(hero.guild == GIL_PAL)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEMANA,-57);
 	};
@@ -1276,11 +1274,11 @@ func void equip_itar_palinnos2()
 
 func void unequip_itar_palinnos2()
 {
-	if(hero.guild == GIL_PAL)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEHP,59);
 	};
-	if(hero.guild == GIL_PAL)
+	if(Npc_IsPlayer(self))
 	{
 		Npc_ChangeAttribute(self,ATR_REGENERATEMANA,57);
 	};

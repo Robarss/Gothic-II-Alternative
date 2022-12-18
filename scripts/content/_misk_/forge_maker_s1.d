@@ -230,7 +230,7 @@ instance PC_IGNOTHII_START(C_Info)
 	condition = pc_ignothii_start_condition;
 	information = pc_ignothii_start_info;
 	permanent = TRUE;
-	description = "Tavení.";
+	description = "Tavení";
 };
 
 
@@ -279,7 +279,7 @@ instance PC_MELTING(C_Info)
 	condition = pc_melting_condition;
 	information = pc_melting_info;
 	permanent = 1;
-	description = "Pøetavit rezavé zbranì";
+	description = "Rozebrat rezavé zbranì";
 };
 
 
@@ -308,31 +308,31 @@ func void pc_melting_info()
 			if(ilost_melting > 0)
 			{
 				Npc_RemoveInvItems(hero,ItMw_1h_MISC_Sword,ilost_melting);
-				CreateInvItems(hero,ItMiSwordraw,ilost_melting);
+				CreateInvItems(hero,ItMi_scrapiron,ilost_melting);
 			};
 			ilost_melting = Npc_HasItems(hero,ItMw_1h_Misc_Axe);
 			if(ilost_melting > 0)
 			{
 				Npc_RemoveInvItems(hero,ItMw_1h_Misc_Axe,ilost_melting);
-				CreateInvItems(hero,ItMiSwordraw,ilost_melting);
+				CreateInvItems(hero,ItMi_scrapiron,ilost_melting);
 			};
 			ilost_melting = Npc_HasItems(hero,ItMw_2H_Sword_M_01);
 			if(ilost_melting > 0)
 			{
 				Npc_RemoveInvItems(hero,ItMw_2H_Sword_M_01,ilost_melting);
-				CreateInvItems(hero,ItMiSwordraw,ilost_melting);
+				CreateInvItems(hero,ItMi_scrapiron,ilost_melting);
 			};
 			ilost_melting = Npc_HasItems(hero,ItMw_1h_Mil_Sword);
 			if(ilost_melting > 0)
 			{
 				Npc_RemoveInvItems(hero,ItMw_1h_Mil_Sword,ilost_melting);
-				CreateInvItems(hero,ItMiSwordraw,ilost_melting);
+				CreateInvItems(hero,ItMi_scrapiron,ilost_melting);
 			};
-			PrintScreen("Pøetavil jsi všechny rezavé zbranì",-1,-1,"font_old_20_white.tga",1);
+			PrintScreen("Rozebral jsi všechny rezavé zbranì",-1,-1,"font_old_20_white.tga",1);
 		}
 		else
 		{
-			PrintScreen("Nedostatek ingrediencí!",-1,-1,"font_old_20_white.tga",1);
+			PrintScreen("Nedostatek materiálu!",-1,-1,"font_old_20_white.tga",1);
 			AI_StopProcessInfos(self);
 			PLAYER_MOBSI_PRODUCTION = MOBSI_NONE;
 			self.aivar[AIV_INVINCIBLE] = FALSE;
@@ -349,7 +349,7 @@ instance PC_MELTINGII(C_Info)
 	condition = pc_meltingii_condition;
 	information = pc_meltingii_info;
 	permanent = 1;
-	description = "Pøetavit skøetí zbranì";
+	description = "Rozebrat skøetí zbranì";
 };
 
 
@@ -378,31 +378,31 @@ func void pc_meltingii_info()
 			if(ilost_meltingii > 0)
 			{
 				Npc_RemoveInvItems(hero,ItMw_2H_OrcAxe_01,ilost_meltingii);
-				CreateInvItems(hero,ItMiSwordraw,ilost_meltingii);
+				CreateInvItems(hero,ItMi_scrapiron,ilost_meltingii);
 			};
 			ilost_meltingii = Npc_HasItems(hero,ItMw_2H_OrcAxe_02);
 			if(ilost_meltingii > 0)
 			{
 				Npc_RemoveInvItems(hero,ItMw_2H_OrcAxe_02,ilost_meltingii);
-				CreateInvItems(hero,ItMiSwordraw,ilost_meltingii);
+				CreateInvItems(hero,ItMi_scrapiron,ilost_meltingii);
 			};
 			ilost_meltingii = Npc_HasItems(hero,ItMw_2H_OrcAxe_03);
 			if(ilost_meltingii > 0)
 			{
 				Npc_RemoveInvItems(hero,ItMw_2H_OrcAxe_03,ilost_meltingii);
-				CreateInvItems(hero,ItMiSwordraw,ilost_meltingii);
+				CreateInvItems(hero,ItMi_scrapiron,ilost_meltingii);
 			};
 			ilost_meltingii = Npc_HasItems(hero,ItMw_2H_OrcAxe_04);
 			if(ilost_meltingii > 0)
 			{
 				Npc_RemoveInvItems(hero,ItMw_2H_OrcAxe_04,ilost_meltingii);
-				CreateInvItems(hero,ItMiSwordraw,ilost_meltingii);
+				CreateInvItems(hero,ItMi_scrapiron,ilost_meltingii);
 			};
-			PrintScreen("Pøetavil jsi všechny skøetí zbranì",-1,-1,"font_old_20_white.tga",1);
+			PrintScreen("Rozebral jsi všechny skøetí zbranì",-1,-1,"font_old_20_white.tga",1);
 		}
 		else
 		{
-			PrintScreen("Nedostatek ingrediencí!",-1,-1,"font_old_20_white.tga",1);
+			PrintScreen("Nedostatek materiálu!",-1,-1,"font_old_20_white.tga",1);
 			AI_StopProcessInfos(self);
 			PLAYER_MOBSI_PRODUCTION = MOBSI_NONE;
 			self.aivar[AIV_INVINCIBLE] = FALSE;
@@ -412,3 +412,79 @@ func void pc_meltingii_info()
 
 
 var int knows_meltingii;
+
+instance PC_MELTINGIII(C_Info)
+{
+	npc = PC_Hero;
+	condition = pc_meltingiii_condition;
+	information = pc_meltingiii_info;
+	permanent = 1;
+	description = "1x Pøetavit na ocel (3x staré železo)";
+};
+
+
+func int pc_meltingiii_condition()
+{
+	if((PLAYER_MOBSI_PRODUCTION == MOBSI_FORGEMAKER) && (IGNOTHSTARTII == TRUE) && (IGNOTHSTART == FALSE))
+	{
+		return TRUE;
+	};
+};
+
+func void pc_meltingiii_info()
+{
+	if(Npc_HasItems(hero,ItMi_scrapiron) >= 3)
+	{
+		Npc_RemoveInvItems(hero,ItMi_scrapiron,3);
+		CreateInvItems(hero,ItMiSwordraw,1);
+		PrintScreen("Pøetavil jsi staré železo",-1,-1,"font_old_20_white.tga",1);
+	}
+	else
+	{
+		PrintScreen("Nedostatek materiálu!",-1,-1,"font_old_20_white.tga",1);
+		AI_StopProcessInfos(self);
+		PLAYER_MOBSI_PRODUCTION = MOBSI_NONE;
+		self.aivar[AIV_INVINCIBLE] = FALSE;
+	};
+};
+
+
+var int knows_pc_meltingiii;
+
+instance PC_MELTINGIV(C_Info)
+{
+	npc = PC_Hero;
+	condition = pc_meltingiv_condition;
+	information = pc_meltingiv_info;
+	permanent = 1;
+	description = "20x Pøetavit na ocel (60x staré železo)";
+};
+
+
+func int pc_meltingiv_condition()
+{
+	if((PLAYER_MOBSI_PRODUCTION == MOBSI_FORGEMAKER) && (IGNOTHSTARTII == TRUE) && (IGNOTHSTART == FALSE))
+	{
+		return TRUE;
+	};
+};
+
+func void pc_meltingiv_info()
+{
+	if(Npc_HasItems(hero,ItMi_scrapiron) >= 60)
+	{
+		Npc_RemoveInvItems(hero,ItMi_scrapiron,60);
+		CreateInvItems(hero,ItMiSwordraw,1);
+		PrintScreen("Pøetavil jsi staré železo",-1,-1,"font_old_20_white.tga",1);
+	}
+	else
+	{
+		PrintScreen("Nedostatek materiálu!",-1,-1,"font_old_20_white.tga",1);
+		AI_StopProcessInfos(self);
+		PLAYER_MOBSI_PRODUCTION = MOBSI_NONE;
+		self.aivar[AIV_INVINCIBLE] = FALSE;
+	};
+};
+
+
+var int knows_pc_meltingiv;
