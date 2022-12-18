@@ -286,7 +286,7 @@ instance DIA_Mika_Zack(C_Info)
 
 func int DIA_Mika_Zack_Condition()
 {
-	if((Npc_GetDistToWP(self,"NW_FARM2_PATH_03") < 500) && !(Npc_IsDead(Alvares) || !Npc_IsDead(Engardo)))
+	if(Npc_IsInState(self,ZS_Talk) && (Npc_GetDistToWP(self,"NW_FARM2_PATH_03") < 500) && !Npc_IsDead(Alvares) && !Npc_IsDead(Engardo))
 	{
 		return TRUE;
 	};
