@@ -376,7 +376,7 @@ instance DIA_RAMIREZ_TRADEI(C_Info)
 
 func int dia_ramirez_tradei_condition()
 {
-	if(Ramirez_TeachPlayer == TRUE)
+	if(Ramirez_TeachPlayer == TRUE) || (MIS_CassiaRing == LOG_SUCCESS)
 	{
 		return TRUE;
 	};
