@@ -42,6 +42,8 @@ instance PC_L10(Npc_Default)
 	attribute[ATR_MANA] = 64;
 	attribute[ATR_HITPOINTS_MAX] = 148;
 	attribute[ATR_HITPOINTS] = 148;
+	attribute[ATR_REGENERATEHP] = 60;
+	attribute[ATR_REGENERATEMANA] = 60;
 	B_SetNpcVisual(self,MALE,"Hum_Head_Pony",Face_N_Player,BodyTex_N,ITAR_Mil_L);
 	B_AddFightSkill(self,NPC_TALENT_1H,30);
 	B_AddFightSkill(self,NPC_TALENT_2H,10);
@@ -71,6 +73,8 @@ instance PC_L20(Npc_Default)
 	attribute[ATR_MANA] = 35;
 	attribute[ATR_HITPOINTS_MAX] = 280;
 	attribute[ATR_HITPOINTS] = 280;
+	attribute[ATR_REGENERATEHP] = 60;
+	attribute[ATR_REGENERATEMANA] = 60;
 	B_SetNpcVisual(self,MALE,"Hum_Head_Pony",Face_N_Player,BodyTex_N,ITAR_RANGER_Addon);
 	B_AddFightSkill(self,NPC_TALENT_1H,60);
 	B_AddFightSkill(self,NPC_TALENT_2H,30);
@@ -104,6 +108,8 @@ instance PC_L40(Npc_Default)
 	attribute[ATR_MANA] = 172;
 	attribute[ATR_HITPOINTS_MAX] = 520;
 	attribute[ATR_HITPOINTS] = 520;
+	attribute[ATR_REGENERATEHP] = 60;
+	attribute[ATR_REGENERATEMANA] = 60;
 	B_SetNpcVisual(self,MALE,"Hum_Head_Pony",Face_N_Player,BodyTex_N,ItAr_PAL_M);
 	B_AddFightSkill(self,NPC_TALENT_1H,90);
 	B_AddFightSkill(self,NPC_TALENT_2H,60);
@@ -144,6 +150,8 @@ instance PC_L60(Npc_Default)
 	attribute[ATR_MANA] = 234;
 	attribute[ATR_HITPOINTS_MAX] = 760;
 	attribute[ATR_HITPOINTS] = 760;
+	attribute[ATR_REGENERATEHP] = 60;
+	attribute[ATR_REGENERATEMANA] = 60;
 	B_SetNpcVisual(self,MALE,"Hum_Head_Pony",Face_N_Player,BodyTex_N,ItAr_PAl_H);
 	B_AddFightSkill(self,NPC_TALENT_1H,90);
 	B_AddFightSkill(self,NPC_TALENT_2H,60);
@@ -180,6 +188,8 @@ instance PC_E3Mage(Npc_Default)
 	attribute[ATR_MANA] = 200;
 	attribute[ATR_HITPOINTS_MAX] = 500;
 	attribute[ATR_HITPOINTS] = 500;
+	attribute[ATR_REGENERATEHP] = 60;
+	attribute[ATR_REGENERATEMANA] = 60;
 	B_SetNpcVisual(self,MALE,"Hum_Head_Pony",Face_N_Player,BodyTex_N,ItAr_KDF_H);
 	B_AddFightSkill(self,NPC_TALENT_1H,40);
 	B_AddFightSkill(self,NPC_TALENT_2H,30);
@@ -314,6 +324,8 @@ instance PC_E3Paladin(Npc_Default)
 	attribute[ATR_MANA] = 50;
 	attribute[ATR_HITPOINTS_MAX] = 500;
 	attribute[ATR_HITPOINTS] = 500;
+	attribute[ATR_REGENERATEHP] = 60;
+	attribute[ATR_REGENERATEMANA] = 60;
 	B_SetNpcVisual(self,MALE,"Hum_Head_Pony",Face_N_Player,BodyTex_N,ItAr_PAl_H);
 	B_AddFightSkill(self,NPC_TALENT_1H,100);
 	B_AddFightSkill(self,NPC_TALENT_2H,90);
@@ -391,6 +403,8 @@ instance PC_Bandit(Npc_Default)
 	attribute[ATR_MANA] = 10;
 	attribute[ATR_HITPOINTS_MAX] = 200;
 	attribute[ATR_HITPOINTS] = 200;
+	attribute[ATR_REGENERATEHP] = 60;
+	attribute[ATR_REGENERATEMANA] = 60;
 	PLAYER_TALENT_SMITH[WEAPON_1H_Harad_01] = TRUE;
 	PLAYER_TALENT_SMITH[WEAPON_1H_Harad_02] = TRUE;
 	PLAYER_TALENT_SMITH[WEAPON_1H_Harad_03] = TRUE;
