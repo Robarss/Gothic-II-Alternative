@@ -2050,7 +2050,7 @@ instance DIA_Vatras_BEGINN(C_Info)
 
 func int DIA_Vatras_BEGINN_Condition()
 {
-	if((Kapitel == 3) && (Npc_GetDistToWP(self,"NW_TROLLAREA_RITUAL_02") < 2000) && (Npc_GetDistToWP(Xardas,"NW_TROLLAREA_RITUAL_02") < 2000) && (Npc_GetDistToWP(Pyrokar,"NW_TROLLAREA_RITUAL_02") < 2000) && Npc_HasItems(other,ItMi_InnosEye_Broken_Mis) && (MIS_Bennet_InnosEyeRepairedSetting == LOG_SUCCESS))
+	if((Kapitel == 3) && (Npc_GetDistToWP(self,"NW_TROLLAREA_RITUAL_02") < 2000) && (Npc_GetDistToWP(Xardas,"NW_TROLLAREA_RITUAL_02") < 2000) && (Npc_GetDistToWP(Pyrokar,"NW_TROLLAREA_RITUAL_02") < 2000) && Npc_HasItems(other,ItMi_InnosEye_Discharged_Mis) && (MIS_Bennet_InnosEyeRepairedSetting == LOG_SUCCESS))
 	{
 		return TRUE;
 	};
@@ -2060,8 +2060,8 @@ func void DIA_Vatras_BEGINN_Info()
 {
 	AI_Output(other,self,"DIA_Vatras_BEGINN_15_00");	//Udìlal jsem vše, co jsi øekl. Tady je opravené Oko.
 	B_GivePlayerXP(XP_RitualInnosEyeRuns);
-	B_GiveInvItems(other,self,ItMi_InnosEye_Broken_Mis,1);
-	Npc_RemoveInvItem(self,ItMi_InnosEye_Broken_Mis);
+	B_GiveInvItems(other,self,ItMi_InnosEye_Discharged_Mis,1);
+	Npc_RemoveInvItem(self,ItMi_InnosEye_Discharged_Mis);
 	AI_Output(self,other,"DIA_Vatras_BEGINN_05_01");	//Teï už nic nebrání provedení rituálu.
 	AI_Output(other,self,"DIA_Vatras_BEGINN_15_02");	//A co tráva z bažin?
 	AI_Output(self,other,"DIA_Vatras_BEGINN_05_03");	//Á, ano. Tak máš ty tøi rostlinky?
