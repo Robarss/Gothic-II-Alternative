@@ -7,14 +7,14 @@ instance VLK_456_Abuyin(Npc_Default)
 	voice = 13;
 	flags = 0;
 	npcType = npctype_main;
-	B_SetAttributesToChapter(self,4);
+	B_SetAttributesToChapter(self,1);
 	fight_tactic = FAI_HUMAN_NORMAL;
 	EquipItem(self,ItMw_1h_Vlk_Dagger);
 	B_CreateAmbientInv(self);
 	B_SetNpcVisual(self,MALE,"Hum_Head_Bald",Face_B_Normal_Sharky,BodyTex_B,ITAR_Vlk_M);
 	Mdl_SetModelFatness(self,0);
 	B_GiveNpcTalents(self);
-	B_SetFightSkills(self,50);
+	B_SetFightSkills(self,30);
 	daily_routine = Rtn_Start_456;
 };
 
