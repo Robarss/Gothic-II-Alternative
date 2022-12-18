@@ -976,10 +976,10 @@ func void B_Harad_HaveFunWithYourSword()
 func void DIA_Harad_Erzklingen_2h()
 {
 	AI_Output(other,self,"DIA_Harad_Erzklingen_2h_15_00");	//Vezmu si obouruèní meè!
-	if((Npc_HasItems(other,ItMi_Gold) >= Value_Blessed_2H_1) && (Npc_HasItems(other,ItMi_Nugget) >= 60))
+	if((Npc_HasItems(other,ItMi_Gold) >= Value_Blessed_2H_1) && (Npc_HasItems(other,ItMi_Nugget) >= 100))
 	{
 		B_GiveInvItems(other,self,ItMi_Gold,Value_Blessed_2H_1);
-		B_GiveInvItems(other,self,ItMi_Nugget,60);
+		B_GiveInvItems(other,self,ItMi_Nugget,100);
 		CreateInvItems(self,ItMw_2H_Blessed_01,1);
 		B_GiveInvItems(self,other,ItMw_2H_Blessed_01,1);
 		B_Harad_HaveFunWithYourSword();
@@ -989,8 +989,8 @@ func void DIA_Harad_Erzklingen_2h()
 		B_Harad_NotEnoughGold();
 		Info_ClearChoices(DIA_Harad_Erzklingen);
 		Info_AddChoice(DIA_Harad_Erzklingen,Dialog_Back,DIA_Harad_Erzklingen_Back);
-		Info_AddChoice(DIA_Harad_Erzklingen,"Obouruèní meè (2000 zlaákù,60x magická ruda)",DIA_Harad_Erzklingen_2h);
-		Info_AddChoice(DIA_Harad_Erzklingen,"Jednoruèní meè (2000 zlaákù, 50x magická ruda)",DIA_Harad_Erzklingen_1h);
+		Info_AddChoice(DIA_Harad_Erzklingen,"Obouruèní meè (4000 zlaákù,100x magická ruda)",DIA_Harad_Erzklingen_2h);
+		Info_AddChoice(DIA_Harad_Erzklingen,"Jednoruèní meè (3000 zlaákù, 50x magická ruda)",DIA_Harad_Erzklingen_1h);
 	};
 };
 
@@ -1010,8 +1010,8 @@ func void DIA_Harad_Erzklingen_1h()
 		B_Harad_NotEnoughGold();
 		Info_ClearChoices(DIA_Harad_Erzklingen);
 		Info_AddChoice(DIA_Harad_Erzklingen,Dialog_Back,DIA_Harad_Erzklingen_Back);
-		Info_AddChoice(DIA_Harad_Erzklingen,"Obouruèní meè (2000 zlaákù, 60x magická ruda)",DIA_Harad_Erzklingen_2h);
-		Info_AddChoice(DIA_Harad_Erzklingen,"Jednoruèní meè (2000 zlaákù, 50x magická ruda)",DIA_Harad_Erzklingen_1h);
+		Info_AddChoice(DIA_Harad_Erzklingen,"Obouruèní meè (4000 zlaákù, 100x magická ruda)",DIA_Harad_Erzklingen_2h);
+		Info_AddChoice(DIA_Harad_Erzklingen,"Jednoruèní meè (3000 zlaákù, 50x magická ruda)",DIA_Harad_Erzklingen_1h);
 	};
 };
 
@@ -1171,11 +1171,11 @@ func void dia_harad_melting_info()
 	{
 		hero.lp = hero.lp - 10;
 		B_TeachThiefTalent(self,other,NPC_TALENT_FORGE);
-		AI_Output(self,other,"DIA_Harad_LEA_12_01");	//Nejdøív rozehøej vıheò a potom vlo zbranì a nech je roztavit.
-		AI_Output(self,other,"DIA_Harad_LEA_12_02");	//Z rezavé zbranì se dá udìlat jedna surová ocel a u skøetích to samé, ale musíš poèkat delší dobu ne se roztavı.
-		AI_Output(self,other,"DIA_Harad_LEA_12_04");	//A je to, nejlepší je surová elezná ruda z té se dá vyrobit mnohem víc surové ocele ale to zjistíš sám.
+		AI_Output(self,other,"DIA_Harad_LEA_12_01");	//Nejdøív je nutné rozdìlat a oèistit skøetí nebo rezavé zbranì a potom teprve je hodíš do vıhnì.
+		AI_Output(self,other,"DIA_Harad_LEA_12_02");	//Ze tøí rozdìlanıch zbraní se dá udìlat jedna surová ocel a u skøetích to samé, ale musíš poèkat delší dobu ne se roztaví.
+		AI_Output(self,other,"DIA_Harad_LEA_12_04");	//A je to, nejlepší je surová elezná ruda z té se dá vyrobit mnohem víc surové ocele a to by bylo asi všechno.
 		Log_CreateTopic(TOPIC_TalentSmith,LOG_NOTE);
-		B_LogEntry(TOPIC_TalentSmith,"Umím tavit skøetí a rezavé zbranì.");
+		B_LogEntry(TOPIC_TalentSmith,"Harad mì nauèil jak tavit skøetí a rezavé zbranì, nejprve je nutné je rozebrat a oèistit a tprve potom pøetavit na surovou ocel, na jednu ocel budu potøebovat 3x rozebrané staré rezavé elezo.");
 		KNOWS_MELTINGLER = TRUE;
 		PrintScreen("Umím tavit skøetí a rezavé zbranì",-1,-1,"FONT_OLD_20_WHITE.TGA",1);
 	}
@@ -1245,7 +1245,7 @@ func void dia_harad_newsmith_info()
 		hero.lp = hero.lp - 5;
 		Npc_RemoveInvItems(hero,ItMi_Gold,1000);
 		AI_Output(self,other,"DIA_newsmith_12_01");	//Tady u to chce trochu umìní a trpìlivost, podívej.
-		B_LogEntry(TOPIC_TalentSmith,"Harad mì nauèil kovat 'Spravedlnost' - nejlepší jednoruèní obyèejnou zbraò (Potøeba 5x rozhavenou ocel).");
+		B_LogEntry(TOPIC_TalentSmith,"Harad mì nauèil kovat 'Spravedlnost' - Haradova nejlepší jednoruèní obyèejnou zbraò (Potøeba 5x rozhavenou ocel).");
 		KNOWS_NEWSMITH = TRUE;
 		PrintScreen("Umím vykovat meè Spravedlnost",-1,-1,"FONT_OLD_20_WHITE.TGA",1);
 	}
@@ -1284,7 +1284,7 @@ func void dia_harad_newsmith2_info()
 		hero.lp = hero.lp - 10;
 		Npc_RemoveInvItems(hero,ItMi_Gold,2000);
 		AI_Output(self,other,"DIA_newsmith_12_01");	//Tady u to chce trochu umìní a trpìlivost, podívej.
-		B_LogEntry(TOPIC_TalentSmith,"Harad mì nauèil kovat 'Mírotvùrce' - nejlepší obouruèní obyèejnou zbraò (Potøeba 10x rozhavenou ocel).");
+		B_LogEntry(TOPIC_TalentSmith,"Harad mì nauèil kovat 'Mírotvùrce' - Haradova nejlepší obouruèní obyèejnou zbraò (Potøeba 10x rozhavenou ocel).");
 		KNOWS_NEWSMITH2 = TRUE;
 		PrintScreen("Umím vykovat meè Mírotvùrce",-1,-1,"FONT_OLD_20_WHITE.TGA",1);
 	}
