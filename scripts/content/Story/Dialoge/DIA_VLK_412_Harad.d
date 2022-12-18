@@ -951,8 +951,8 @@ func void DIA_Harad_Erzklingen_Info()
 		AI_Output(self,other,"DIA_Harad_Erzklingen_12_04");	//Take co ti mohu nabídnout?
 		Info_ClearChoices(DIA_Harad_Erzklingen);
 		Info_AddChoice(DIA_Harad_Erzklingen,Dialog_Back,DIA_Harad_Erzklingen_Back);
-		Info_AddChoice(DIA_Harad_Erzklingen,"Obouruèní meè (2000 zlaákù, 20x magická ruda)",DIA_Harad_Erzklingen_2h);
-		Info_AddChoice(DIA_Harad_Erzklingen,"Jednoruèní meè (2000 zlaákù, 15x magická ruda )",DIA_Harad_Erzklingen_1h);
+		Info_AddChoice(DIA_Harad_Erzklingen,"Obouruèní meè (4000 zlaákù, 100x magická ruda)",DIA_Harad_Erzklingen_2h);
+		Info_AddChoice(DIA_Harad_Erzklingen,"Jednoruèní meè (3000 zlaákù, 50x magická ruda )",DIA_Harad_Erzklingen_1h);
 	};
 };
 
