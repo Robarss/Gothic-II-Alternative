@@ -480,5 +480,6 @@ func void DIA_Addon_Huno_Trade_Info()
 {
 	B_Say(other,self,"$TRADE_3");
 	B_GiveTradeInv(self);
+	Npc_RemoveInvItems(self,ItMiSwordrawhot,100);
 };
 
