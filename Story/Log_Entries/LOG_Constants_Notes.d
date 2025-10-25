@@ -1,0 +1,26 @@
+
+const string TOPIC_Trader_OC = "Obchodování na hradě.";
+const string TOPIC_CityTrader = "Obchodování v Khorinisu.";
+const string Topic_OutTrader = "Obchodování v divočině.";
+const string Topic_SoldierTrader = "Obchodování na Onarově farmě.";
+const string TOPIC_Teacher = "Učení.";
+const string TOPIC_Teacher_OC = "Učení na hradě.";
+const string Topic_SoldierTeacher = "Učení na Onarově farmě.";
+const string Topic_OutTeacher = "Učení v divočině.";
+const string TOPIC_CityTeacher = "Učení v Khorinisu.";
+const string TOPIC_Addon_KDWTeacher = "Učení u mágů Vody.";
+const string TOPIC_TalentSmith = "Kování";
+const string TOPIC_TalentRunes = "Runy";
+const string TOPIC_TalentAlchemy = "Lektvary";
+const string TOPIC_TalentAnimalTrophy = "Zvířecí trofeje";
+const string TOPIC_TalentMagicCircle = "Magické kruhy";
+const string TOPIC_WispDetector = "Pátrající bludička";
+const string TOPIC_Language = "Jazyk";
+const string Topic_Bonus = "Zvláštnosti";
+const string Topic_Diebesgilde = "Zlodějský cech";
+const string TOPIC_COOK = "Vaření v Khorinisu.";
+const string TOPIC_COOKJ = "Vaření v jakendaru.";
+const string TOPIC_COOKHU = "Vaření v hornickém udolí.";
+const string TOPIC_SKINHUN = "Výroba loveckých zbrojí v Khorinisu.";
+const string TOPIC_BOWHUNT = "Výroba Střelných zbraní.";
+const string TOPIC_ARROW = "Výroba Střeliva.";

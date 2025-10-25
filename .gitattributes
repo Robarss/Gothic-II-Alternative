@@ -1,2 +1,2 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+*.[dD] text working-tree-encoding=cp1250 git-encoding=UTF-8
+*.[sS][rR][cC] text working-tree-encoding=cp1250 git-encoding=UTF-8

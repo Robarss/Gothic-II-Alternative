@@ -1,0 +1,503 @@
+
+instance DIA_Udar_EXIT(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 999;
+	condition = DIA_Udar_EXIT_Condition;
+	information = DIA_Udar_EXIT_Info;
+	permanent = TRUE;
+	description = Dialog_Ende;
+};
+
+
+func int DIA_Udar_EXIT_Condition()
+{
+	if(Kapitel < 4)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_EXIT_Info()
+{
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Udar_Hello(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 2;
+	condition = DIA_Udar_Hello_Condition;
+	information = DIA_Udar_Hello_Info;
+	important = TRUE;
+};
+
+
+func int DIA_Udar_Hello_Condition()
+{
+	if(Npc_IsInState(self,ZS_Talk) && (self.aivar[AIV_TalkedToPlayer] == FALSE) && (Kapitel < 4))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_Hello_Info()
+{
+	AI_Output(self,other,"DIA_Udar_Hello_09_00");	//Když jsi vešel, měl jsi zatracené štěstí. Málem jsem tě zastřelil.
+	AI_Output(other,self,"DIA_Udar_Hello_15_01");	//V tom případě bych asi měl být rád, že máš tak skvělý zrak.
+	AI_Output(self,other,"DIA_Udar_Hello_09_02");	//Šetři si dech. Jestli něco chceš, promluv si se Sengrathem.
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Udar_YouAreBest(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 3;
+	condition = DIA_Udar_YouAreBest_Condition;
+	information = DIA_Udar_YouAreBest_Info;
+	permanent = FALSE;
+	description = "Slyšel jsem, že jsi NEJLEPŠÍ střelec z kuše široko daleko.";
+};
+
+
+func int DIA_Udar_YouAreBest_Condition()
+{
+	if(Npc_KnowsInfo(other,DIA_Keroloth_Udar))
+	{
+		return 1;
+	};
+};
+
+func void DIA_Udar_YouAreBest_Info()
+{
+	AI_Output(other,self,"DIA_Udar_YouAreBest_15_00");	//Slyšel jsem, že jsi NEJLEPŠÍ střelec z kuše široko daleko.
+	AI_Output(self,other,"DIA_Udar_YouAreBest_09_01");	//Pokud se to říká, tak to asi bude pravda. Co chceš?
+};
+
+
+instance DIA_Udar_TeachMe(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 3;
+	condition = DIA_Udar_TeachMe_Condition;
+	information = DIA_Udar_TeachME_Info;
+	permanent = FALSE;
+	description = "Nauč mě, jak správně střílet z kuše.";
+};
+
+
+func int DIA_Udar_TeachMe_Condition()
+{
+	if(Npc_KnowsInfo(other,DIA_Udar_YouAreBest) && (Udar_TeachPlayer != TRUE))
+	{
+		return 1;
+	};
+};
+
+func void DIA_Udar_TeachME_Info()
+{
+	AI_Output(other,self,"DIA_Udar_Teacher_15_00");	//Nauč mě, jak správně střílet z kuše.
+	AI_Output(self,other,"DIA_Udar_Teacher_09_01");	//Zmiz! Kolem hradu pobíhá spousta terčů. Cvič se na nich.
+};
+
+
+instance DIA_Udar_ImGood(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 3;
+	condition = DIA_Udar_ImGood_Condition;
+	information = DIA_Udar_ImGood_Info;
+	permanent = FALSE;
+	description = "Jsem nejlepší.";
+};
+
+
+func int DIA_Udar_ImGood_Condition()
+{
+	if(Npc_KnowsInfo(other,DIA_Udar_YouAreBest))
+	{
+		return 1;
+	};
+};
+
+func void DIA_Udar_ImGood_Info()
+{
+	AI_Output(other,self,"DIA_Udar_ImGood_15_00");	//Jsem nejlepší.
+	AI_Output(self,other,"DIA_Udar_ImGood_09_01");	//(směje se) To teda jo!
+	AI_Output(self,other,"DIA_Udar_ImGood_09_02");	//No, pokud se chceš učit, pomůžu ti.
+	Udar_TeachPlayer = TRUE;
+	B_LogEntry(TOPIC_Teacher_OC,"Udar mi vysvětlí, jak zacházet s kuší.");
+};
+
+
+instance DIA_Udar_Teach(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 3;
+	condition = DIA_Udar_Teach_Condition;
+	information = DIA_Udar_Teach_Info;
+	permanent = TRUE;
+	description = "Chci se učit od tebe.";
+};
+
+
+func int DIA_Udar_Teach_Condition()
+{
+	if(Udar_TeachPlayer == TRUE)
+	{
+		return 1;
+	};
+};
+
+func void DIA_Udar_Teach_Info()
+{
+	AI_Output(other,self,"DIA_Udar_Teach_15_00");	//Chci se učit od tebe.
+	AI_Output(self,other,"DIA_Udar_Teach_09_01");	//Dobrá, tak spusť!
+	Info_ClearChoices(DIA_Udar_Teach);
+	Info_AddChoice(DIA_Udar_Teach,Dialog_Back,DIA_Udar_Teach_Back);
+	Info_AddChoice(DIA_Udar_Teach,B_BuildLearnString(PRINT_LearnCrossBow1,B_GetLearnCostTalent(other,NPC_TALENT_CROSSBOW,1)),DIA_Udar_Teach_CROSSBOW_1);
+	Info_AddChoice(DIA_Udar_Teach,B_BuildLearnString(PRINT_LearnCrossBow5,B_GetLearnCostTalent(other,NPC_TALENT_CROSSBOW,5)),DIA_Udar_Teach_CROSSBOW_5);
+};
+
+func void DIA_Udar_Teach_Back()
+{
+	Info_ClearChoices(DIA_Udar_Teach);
+};
+
+func void B_Udar_TeachNoMore1()
+{
+	AI_Output(self,other,"B_Udar_TeachNoMore1_09_00");	//Základy už umíš - na víc nemáme čas.
+};
+
+func void B_Udar_TeachNoMore2()
+{
+	AI_Output(self,other,"B_Udar_TeachNoMore2_09_00");	//Jestli se chceš naučit se svou zbraní zacházet lépe, měl by sis najít skutečného učitele.
+};
+
+func void DIA_Udar_Teach_CROSSBOW_1()
+{
+	B_TeachFightTalentPercent(self,other,NPC_TALENT_CROSSBOW,1,60);
+	if(other.HitChance[NPC_TALENT_CROSSBOW] >= 60)
+	{
+		B_Udar_TeachNoMore1();
+		if(Npc_GetTalentSkill(other,NPC_TALENT_CROSSBOW) == 1)
+		{
+			B_Udar_TeachNoMore2();
+		};
+	};
+	Info_AddChoice(DIA_Udar_Teach,B_BuildLearnString(PRINT_LearnCrossBow1,B_GetLearnCostTalent(other,NPC_TALENT_CROSSBOW,1)),DIA_Udar_Teach_CROSSBOW_1);
+};
+
+func void DIA_Udar_Teach_CROSSBOW_5()
+{
+	B_TeachFightTalentPercent(self,other,NPC_TALENT_CROSSBOW,5,60);
+	if(other.HitChance[NPC_TALENT_CROSSBOW] >= 60)
+	{
+		B_Udar_TeachNoMore1();
+		if(Npc_GetTalentSkill(other,NPC_TALENT_CROSSBOW) == 1)
+		{
+			B_Udar_TeachNoMore2();
+		};
+	};
+	Info_AddChoice(DIA_Udar_Teach,B_BuildLearnString(PRINT_LearnCrossBow5,B_GetLearnCostTalent(other,NPC_TALENT_CROSSBOW,5)),DIA_Udar_Teach_CROSSBOW_5);
+};
+
+
+instance DIA_Udar_Perm(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 11;
+	condition = DIA_Udar_Perm_Condition;
+	information = DIA_Udar_Perm_Info;
+	permanent = FALSE;
+	description = "Jak to jde tady na hradě?";
+};
+
+
+func int DIA_Udar_Perm_Condition()
+{
+	if(Kapitel <= 3)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_Perm_Info()
+{
+	AI_Output(other,self,"DIA_Udar_Perm_15_00");	//Jak to jde tady na hradě?
+	AI_Output(self,other,"DIA_Udar_Perm_09_01");	//Pár chlapců trénuje, ale v zásadě čekáme, až se něco stane.
+	AI_Output(self,other,"DIA_Udar_Perm_09_02");	//Tahle nejistota nás ubíjí. To mají skřeti přesně v plánu. Čekají, až nám prasknou nervy.
+};
+
+
+instance DIA_Udar_Ring(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 11;
+	condition = DIA_Udar_Ring_Condition;
+	information = DIA_Udar_Ring_Info;
+	permanent = FALSE;
+	description = "Přináším ti Tengronův prsten...";
+};
+
+
+func int DIA_Udar_Ring_Condition()
+{
+	if(Npc_HasItems(other,ItRi_Tengron) >= 1)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_Ring_Info()
+{
+	AI_Output(other,self,"DIA_Udar_Ring_15_00");	//Přináším ti Tengronův prsten. Měl by tě chránit. Až se Tengron vrátí, bude ho chtít zpátky.
+	AI_Output(self,other,"DIA_Udar_Ring_09_01");	//Cože? Víš, co to je za prsten? Dostal ho jako odměnu za svou odvahu v boji.
+	AI_Output(self,other,"DIA_Udar_Ring_09_02");	//Říkáš, že ho bude chtít zpátky? Pokud to je vůle Innosova, stane se tak. Pokud to je vůle Innosova...
+	B_GiveInvItems(other,self,ItRi_Tengron,1);
+	TengronRing = TRUE;
+	B_GivePlayerXP(XP_TengronRing);
+};
+
+
+instance DIA_Udar_KAP4_EXIT(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 999;
+	condition = DIA_Udar_KAP4_EXIT_Condition;
+	information = DIA_Udar_KAP4_EXIT_Info;
+	permanent = TRUE;
+	description = Dialog_Ende;
+};
+
+
+func int DIA_Udar_KAP4_EXIT_Condition()
+{
+	if(Kapitel == 4)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_KAP4_EXIT_Info()
+{
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Udar_Kap4WiederDa(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 40;
+	condition = DIA_Udar_Kap4WiederDa_Condition;
+	information = DIA_Udar_Kap4WiederDa_Info;
+	important = TRUE;
+};
+
+
+func int DIA_Udar_Kap4WiederDa_Condition()
+{
+	if(Kapitel >= 4)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_Kap4WiederDa_Info()
+{
+	AI_Output(self,other,"DIA_Udar_Kap4WiederDa_09_00");	//Je dobře, že jsi přišel. Brzy tady propukne peklo.
+	if(hero.guild != GIL_DJG)
+	{
+		AI_Output(other,self,"DIA_Udar_Kap4WiederDa_15_01");	//Co se stalo?
+		AI_Output(self,other,"DIA_Udar_Kap4WiederDa_09_02");	//Po hradě se poflakují drakobijci a chvástají se, že dokáží vyřešit naše problémy s draky.
+		AI_Output(self,other,"DIA_Udar_Kap4WiederDa_09_03");	//Ale něco ti povím - vypadají, jako by nedokázali zneškodnit ani nemocného starého slepýše.
+	};
+	AI_Output(self,other,"DIA_Udar_Kap4WiederDa_09_04");	//Spousta z nás si začíná dělat starosti a už moc nevěříme, že se odsud dostaneme se zdravou kůží.
+};
+
+
+instance DIA_Udar_Sengrath(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 41;
+	condition = DIA_Udar_Sengrath_Condition;
+	information = DIA_Udar_Sengrath_Info;
+	description = "Nebyli jste tady na hlídce dva?";
+};
+
+
+func int DIA_Udar_Sengrath_Condition()
+{
+	if((Kapitel >= 4) && Npc_KnowsInfo(other,DIA_Udar_Kap4WiederDa) && (Sengrath_Missing == TRUE))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_Sengrath_Info()
+{
+	AI_Output(other,self,"DIA_Udar_Sengrath_15_00");	//Nebyli jste tady na hlídce dva?
+	AI_Output(self,other,"DIA_Udar_Sengrath_09_01");	//Bývalo. Sengrath stál tady na hradbách a najednou z ničeho nic usnul.
+	AI_Output(self,other,"DIA_Udar_Sengrath_09_02");	//Když se to stalo, jeho dobrý samostříl spadnul dolů.
+	AI_Output(self,other,"DIA_Udar_Sengrath_09_03");	//Viděli jsme, jak ho skřeti popadli a zmizeli s ním ve tmě.
+	AI_Output(self,other,"DIA_Udar_Sengrath_09_04");	//Sengrath se hned probudil a vyběhl do noci směrem ke skřetí palisádě. Od té chvíle jsme ho neviděli.
+	AI_Output(self,other,"DIA_Udar_Sengrath_09_05");	//Innos stůj při nás!
+	Log_CreateTopic(TOPIC_Sengrath_Missing,LOG_MISSION);
+	Log_SetTopicStatus(TOPIC_Sengrath_Missing,LOG_Running);
+	B_LogEntry(TOPIC_Sengrath_Missing,"Udar, strážný z hradu, postrádá svého druha Sengratha. Naposledy ho viděl pozdě v noci, když mířil ke skřetímu opevnění a vracel se pro svou kuši.");
+};
+
+
+instance DIA_Udar_SENGRATHGEFUNDEN(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 42;
+	condition = DIA_Udar_SENGRATHGEFUNDEN_Condition;
+	information = DIA_Udar_SENGRATHGEFUNDEN_Info;
+	description = "Našel jsem Sengratha.";
+};
+
+
+func int DIA_Udar_SENGRATHGEFUNDEN_Condition()
+{
+	if((Kapitel >= 4) && Npc_KnowsInfo(other,DIA_Udar_Sengrath) && Npc_HasItems(other,ItRw_SengrathsArmbrust_MIS))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_SENGRATHGEFUNDEN_Info()
+{
+	AI_Output(other,self,"DIA_Udar_SENGRATHGEFUNDEN_15_00");	//Našel jsem Sengratha.
+	AI_Output(self,other,"DIA_Udar_SENGRATHGEFUNDEN_09_01");	//Vážně? Kde je?
+	AI_Output(other,self,"DIA_Udar_SENGRATHGEFUNDEN_15_02");	//Je mrtvý. Tady je jeho kuše. Měl ji u sebe.
+	AI_Output(self,other,"DIA_Udar_SENGRATHGEFUNDEN_09_03");	//Nejspíš se mu ji podařilo získat zpět, ale skřeti ho nakonec přece jenom dostali.
+	AI_Output(self,other,"DIA_Udar_SENGRATHGEFUNDEN_09_04");	//Zatracený blázen. Věděl jsem to. Všichni tady pochcípeme.
+	TOPIC_END_Sengrath_Missing = TRUE;
+	B_GivePlayerXP(XP_SengrathFound);
+};
+
+
+instance DIA_Udar_BADFEELING(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 50;
+	condition = DIA_Udar_BADFEELING_Condition;
+	information = DIA_Udar_BADFEELING_Info;
+	important = TRUE;
+	permanent = TRUE;
+};
+
+
+func int DIA_Udar_BADFEELING_Condition()
+{
+	if((Npc_RefuseTalk(self) == FALSE) && Npc_IsInState(self,ZS_Talk) && Npc_KnowsInfo(other,DIA_Udar_SENGRATHGEFUNDEN) && (Kapitel >= 4))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_BADFEELING_Info()
+{
+	if(MIS_OCGateOpen == TRUE)
+	{
+		AI_Output(self,other,"DIA_Udar_BADFEELING_09_00");	//Ještě jeden takový útok a budeme žrát hlínu.
+	}
+	else if(MIS_AllDragonsDead == TRUE)
+	{
+		AI_Output(self,other,"DIA_Udar_BADFEELING_09_01");	//Skřeti mají dost starostí. Něco je hrozně vyděsilo. Cítím to.
+	}
+	else
+	{
+		AI_Output(self,other,"DIA_Udar_BADFEELING_09_02");	//Nemám z toho vůbec dobrý pocit.
+	};
+	Npc_SetRefuseTalk(self,30);
+};
+
+
+instance DIA_Udar_KAP5_EXIT(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 999;
+	condition = DIA_Udar_KAP5_EXIT_Condition;
+	information = DIA_Udar_KAP5_EXIT_Info;
+	permanent = TRUE;
+	description = Dialog_Ende;
+};
+
+
+func int DIA_Udar_KAP5_EXIT_Condition()
+{
+	if(Kapitel == 5)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_KAP5_EXIT_Info()
+{
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Udar_KAP6_EXIT(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 999;
+	condition = DIA_Udar_KAP6_EXIT_Condition;
+	information = DIA_Udar_KAP6_EXIT_Info;
+	permanent = TRUE;
+	description = Dialog_Ende;
+};
+
+
+func int DIA_Udar_KAP6_EXIT_Condition()
+{
+	if(Kapitel == 6)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Udar_KAP6_EXIT_Info()
+{
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Udar_PICKPOCKET(C_Info)
+{
+	npc = PAL_268_Udar;
+	nr = 900;
+	condition = DIA_Udar_PICKPOCKET_Condition;
+	information = DIA_Udar_PICKPOCKET_Info;
+	permanent = TRUE;
+	description = Pickpocket_20;
+};
+
+
+func int DIA_Udar_PICKPOCKET_Condition()
+{
+	return C_Beklauen(20,15);
+};
+
+func void DIA_Udar_PICKPOCKET_Info()
+{
+	Info_ClearChoices(DIA_Udar_PICKPOCKET);
+	Info_AddChoice(DIA_Udar_PICKPOCKET,Dialog_Back,DIA_Udar_PICKPOCKET_BACK);
+	Info_AddChoice(DIA_Udar_PICKPOCKET,DIALOG_PICKPOCKET,DIA_Udar_PICKPOCKET_DoIt);
+};
+
+func void DIA_Udar_PICKPOCKET_DoIt()
+{
+	B_Beklauen();
+	Info_ClearChoices(DIA_Udar_PICKPOCKET);
+};
+
+func void DIA_Udar_PICKPOCKET_BACK()
+{
+	Info_ClearChoices(DIA_Udar_PICKPOCKET);
+};
+

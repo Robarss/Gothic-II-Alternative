@@ -1,0 +1,361 @@
+
+instance DIA_Garwig_EXIT(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 999;
+	condition = DIA_Garwig_EXIT_Condition;
+	information = DIA_Garwig_EXIT_Info;
+	permanent = TRUE;
+	description = Dialog_Ende;
+};
+
+
+func int DIA_Garwig_EXIT_Condition()
+{
+	return TRUE;
+};
+
+func void DIA_Garwig_EXIT_Info()
+{
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Garwig_Wurst(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 3;
+	condition = DIA_Garwig_Wurst_Condition;
+	information = DIA_Garwig_Wurst_Info;
+	permanent = FALSE;
+	description = "Nedal by sis klobásu?";
+};
+
+
+func int DIA_Garwig_Wurst_Condition()
+{
+	if((Kapitel == 1) && (MIS_GoraxEssen == LOG_Running) && (Npc_HasItems(self,ItFo_Schafswurst) == 0) && (Npc_HasItems(other,ItFo_Schafswurst) >= 1))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Garwig_Wurst_Info()
+{
+	var string NovizeText;
+	var string NovizeLeft;
+	AI_Output(other,self,"DIA_Garwig_Wurst_15_00");	//Nedal by sis klobásu?
+	AI_Output(self,other,"DIA_Garwig_Wurst_06_01");	//Hmm - ta je výborná. Děkuji ti mockrát, bratře.
+	B_GiveInvItems(other,self,ItFo_Schafswurst,1);
+	Wurst_Gegeben = Wurst_Gegeben + 1;
+	CreateInvItems(self,ItFo_Sausage,1);
+	B_UseItem(self,ItFo_Sausage);
+	NovizeLeft = IntToString(13 - Wurst_Gegeben);
+	NovizeText = ConcatStrings(NovizeLeft,PRINT_NovizenLeft);
+	AI_PrintScreen(NovizeText,-1,YPOS_GoldGiven,FONT_ScreenSmall,2);
+};
+
+
+instance DIA_Garwig_Hello(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 3;
+	condition = DIA_Garwig_Hello_Condition;
+	information = DIA_Garwig_Hello_Info;
+	permanent = FALSE;
+	important = TRUE;
+};
+
+
+func int DIA_Garwig_Hello_Condition()
+{
+	if(other.guild == GIL_NOV)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Garwig_Hello_Info()
+{
+	AI_Output(self,other,"DIA_Garwig_Hello_06_00");	//Innos tě doprovázej... Nikdy jsem tě tu neviděl, jsi tady nový?
+	AI_Output(other,self,"DIA_Garwig_Hello_15_01");	//Ano, právě jsem sem vstoupil.
+	AI_Output(self,other,"DIA_Garwig_Hello_06_02");	//V tom případě doufám, že si tady brzy zvykneš. Dej mi vědět, kdybys potřeboval s něčím pomoci.
+};
+
+
+instance DIA_Garwig_Room(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 5;
+	condition = DIA_Garwig_Room_Condition;
+	information = DIA_Garwig_Room_Info;
+	permanent = FALSE;
+	description = "Co je tohle za místnost?";
+};
+
+
+func int DIA_Garwig_Room_Condition()
+{
+	return TRUE;
+};
+
+func void DIA_Garwig_Room_Info()
+{
+	AI_Output(other,self,"DIA_Garwig_Room_15_00");	//Co je tohle za místnost?
+	AI_Output(self,other,"DIA_Garwig_Room_06_01");	//Zde se uchovávají svaté klášterní relikvie.
+	AI_Output(other,self,"DIA_Garwig_Room_15_02");	//Jaké relikvie?
+	AI_Output(self,other,"DIA_Garwig_Room_06_03");	//Je zde uloženo Innosovo kladivo a také Štít ohně. To jsou nejvýznamnější relikvie Innosovy církve nacházející se mimo hlavní město říše.
+};
+
+
+instance DIA_Garwig_Hammer(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 99;
+	condition = DIA_Garwig_Hammer_Condition;
+	information = DIA_Garwig_Hammer_Info;
+	permanent = TRUE;
+	description = "Pověz mi o tom kladivu.";
+};
+
+
+func int DIA_Garwig_Hammer_Condition()
+{
+	if(Npc_KnowsInfo(other,DIA_Garwig_Room))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Garwig_Hammer_Info()
+{
+	AI_Output(other,self,"DIA_Garwig_Hammer_15_00");	//Pověz mi o tom kladivu.
+	AI_Output(self,other,"DIA_Garwig_Hammer_06_01");	//Je to posvátné Innosovo kladivo. Svatý Rhobar s ním skolil Kamenného strážce.
+	AI_Output(self,other,"DIA_Garwig_Hammer_06_02");	//Posvátné spisy říkají, že Kamenný strážce byl nezranitelný. V bitvě stál jako věž a zbraně jeho nepřátel se o jeho kamennou kůži lámaly.
+	AI_Output(self,other,"DIA_Garwig_Hammer_06_03");	//S Innosovým jménem na rtech se Rhobar na tuhle příšeru vrhl a zničil ji jediným mocným máchnutím svého kladiva.
+};
+
+
+instance DIA_Garwig_Shield(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 98;
+	condition = DIA_Garwig_Shield_Condition;
+	information = DIA_Garwig_Shield_Info;
+	permanent = FALSE;
+	description = "Pověz mi o tom štítu.";
+};
+
+
+func int DIA_Garwig_Shield_Condition()
+{
+	if(Npc_KnowsInfo(other,DIA_Garwig_Room))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Garwig_Shield_Info()
+{
+	AI_Output(other,self,"DIA_Garwig_Shield_15_00");	//Pověz mi o tom štítu.
+	AI_Output(self,other,"DIA_Garwig_Shield_06_01");	//Štít ohně u sebe měl Dominique v bitvě o Jižní ostrovy.
+	AI_Output(self,other,"DIA_Garwig_Shield_06_02");	//Moc tohoto štítu však už nikdy nikdo třímat nebude - proto jsme jej přitloukli ke zdi.
+};
+
+
+instance DIA_Garwig_Auge(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 4;
+	condition = DIA_Garwig_Auge_Condition;
+	information = DIA_Garwig_Auge_Info;
+	permanent = FALSE;
+	description = "Je tady také Innosovo oko?";
+};
+
+
+func int DIA_Garwig_Auge_Condition()
+{
+	if(Npc_KnowsInfo(other,DIA_Garwig_Room) && (Kapitel <= 2))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Garwig_Auge_Info()
+{
+	AI_Output(other,self,"DIA_Garwig_Auge_15_00");	//Je tady také Innosovo oko?
+	AI_Output(self,other,"DIA_Garwig_Auge_06_01");	//Samozřejmě, že ne. Co to je za podivný nápad? Nikdo neví, kde je tenhle posvátný artefakt ukrytý.
+};
+
+
+instance DIA_Garwig_SLEEP(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 23;
+	condition = DIA_Garwig_SLEEP_Condition;
+	information = DIA_Garwig_SLEEP_Info;
+	permanent = TRUE;
+	description = "Co tady děláš?";
+};
+
+
+func int DIA_Garwig_SLEEP_Condition()
+{
+	if(other.guild == GIL_NOV)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Garwig_SLEEP_Info()
+{
+	AI_Output(other,self,"DIA_Garwig_SLEEP_15_00");	//Co tady děláš?
+	AI_Output(self,other,"DIA_Garwig_SLEEP_06_01");	//Jsem strážce posvátných artefaktů.
+	Info_ClearChoices(DIA_Garwig_SLEEP);
+	Info_AddChoice(DIA_Garwig_SLEEP,Dialog_Back,DIA_Garwig_SLEEP_BACK);
+	Info_AddChoice(DIA_Garwig_SLEEP,"Můžu to za tebe na chvíli vzít?",DIA_Garwig_SLEEP_EXCHANGE);
+	Info_AddChoice(DIA_Garwig_SLEEP,"Proč je zapotřebí ty artefakty hlídat?",DIA_Garwig_SLEEP_THIEF);
+	Info_AddChoice(DIA_Garwig_SLEEP,"To nikdy nespíš?",DIA_Garwig_SLEEP_NEVER);
+};
+
+func void DIA_Garwig_SLEEP_BACK()
+{
+	Info_ClearChoices(DIA_Garwig_SLEEP);
+};
+
+func void DIA_Garwig_SLEEP_EXCHANGE()
+{
+	AI_Output(other,self,"DIA_Garwig_SLEEP_EXCHANGE_15_00");	//Můžu to za tebe na chvíli vzít?
+	AI_Output(self,other,"DIA_Garwig_SLEEP_EXCHANGE_06_01");	//To je nějaká zkouška? Poslali tě mágové, abys mě pokoušel, co? No jasně - prokoukl jsem to!
+	AI_Output(self,other,"DIA_Garwig_SLEEP_EXCHANGE_06_02");	//Ale já tímto testem projdu. Řekni svým mágům, že zde stojím pevně jako skála a že odolám všem pokušením, protože jsem důvěryhodný strážce.
+};
+
+func void DIA_Garwig_SLEEP_THIEF()
+{
+	AI_Output(other,self,"DIA_Garwig_SLEEP_THIEF_15_00");	//Proč je zapotřebí ty artefakty hlídat? Hrozí snad nebezpečí, že by je mohl někdo ukradnout?
+	AI_Output(self,other,"DIA_Garwig_SLEEP_THIEF_06_01");	//Vážně podivná představa. Proč tě to napadlo?
+	AI_Output(self,other,"DIA_Garwig_SLEEP_THIEF_06_02");	//Do kláštera mají vstup jen ti, kdo slouží Innosovi. A žádného skutečného věřícího by něco podobného ani nenapadlo.
+};
+
+func void DIA_Garwig_SLEEP_NEVER()
+{
+	AI_Output(other,self,"DIA_Garwig_SLEEP_NEVER_15_00");	//To nikdy nespíš?
+	AI_Output(self,other,"DIA_Garwig_SLEEP_NEVER_06_01");	//Poněkud neobvyklá představa. Samozřejmě, že nikdy nespím. Samotný Innos mi dal sílu, s jejíž pomocí se obejdu naprosto bez spánku.
+	AI_Output(self,other,"DIA_Garwig_SLEEP_NEVER_06_02");	//Vždyť jak jinak bych mohl plnit své postvátné povinnosti strážného?
+	Info_ClearChoices(DIA_Garwig_SLEEP);
+	Info_AddChoice(DIA_Garwig_SLEEP,"Opravdu NIKDY nespíš?",DIA_Garwig_SLEEP_AGAIN);
+};
+
+func void DIA_Garwig_SLEEP_AGAIN()
+{
+	AI_Output(other,self,"DIA_Garwig_SLEEP_AGAIN_15_00");	//Opravdu NIKDY nespíš?
+	AI_Output(self,other,"DIA_Garwig_SLEEP_AGAIN_06_01");	//Ne. Pokud strážce usne, zklamal.
+	AI_Output(self,other,"DIA_Garwig_SLEEP_AGAIN_06_02");	//Ale já nezklamu, protože Innos mi dal sílu a výdrž, takže se nikdy neunavím.
+};
+
+
+instance DIA_Garwig_THIEF(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 2;
+	condition = DIA_Garwig_THIEF_Condition;
+	information = DIA_Garwig_THIEF_Info;
+	permanent = TRUE;
+	important = TRUE;
+};
+
+
+func int DIA_Garwig_THIEF_Condition()
+{
+	if(Npc_IsInState(self,ZS_Talk) && (Npc_HasItems(hero,Holy_Hammer_MIS) == 1))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Garwig_THIEF_Info()
+{
+	if(Hammer_Taken == TRUE)
+	{
+		AI_Output(self,other,"DIA_Garwig_THIEF_06_00");	//(rozzlobeně) Zloději! Pošlapal jsi jméno nejen svoje a moje, ale celého kláštera!
+		AI_Output(self,other,"DIA_Garwig_THIEF_06_01");	//Za tuhle svatokrádež zaplatíš. A vůbec - VRAŤ MI TO KLADIVO!!
+	}
+	else
+	{
+		AI_Output(self,other,"DIA_Garwig_THIEF_06_02");	//(zoufale) Kladivo zmizelo - jak se to jen mohlo stát?
+		AI_Output(self,other,"DIA_Garwig_THIEF_06_03");	//Selhal jsem. Innos mě potrestá!
+	};
+};
+
+
+instance DIA_Garwig_Abgeben(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 2;
+	condition = DIA_Garwig_Abgeben_Condition;
+	information = DIA_Garwig_Abgeben_Info;
+	permanent = TRUE;
+	description = "Vracím zpátky to kladivo.";
+};
+
+
+func int DIA_Garwig_Abgeben_Condition()
+{
+	if(Npc_HasItems(other,Holy_Hammer_MIS) >= 1)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Garwig_Abgeben_Info()
+{
+	AI_Output(other,self,"DIA_Garwig_Abgeben_15_00");	//Vracím zpátky to kladivo.
+	if(Hammer_Taken == TRUE)
+	{
+		AI_Output(self,other,"DIA_Garwig_Abgeben_06_01");	//Bídný zloději!
+	}
+	else
+	{
+		AI_Output(self,other,"DIA_Garwig_Abgeben_06_02");	//Takže jsi to byl ty, kdo ho ukradl.
+	};
+	AI_Output(self,other,"DIA_Garwig_Abgeben_06_03");	//Ale mně nepřísluší, abych tě soudil. Innos rozhodne nad tvým osudem, a pak na tvá bedra uloží svůj trest!
+	B_GiveInvItems(other,self,Holy_Hammer_MIS,1);
+	Hammer_Taken = FALSE;
+};
+
+
+instance DIA_Garwig_PICKPOCKET(C_Info)
+{
+	npc = Nov_608_Garwig;
+	nr = 900;
+	condition = DIA_Garwig_PICKPOCKET_Condition;
+	information = DIA_Garwig_PICKPOCKET_Info;
+	permanent = TRUE;
+	description = Pickpocket_60;
+};
+
+
+func int DIA_Garwig_PICKPOCKET_Condition()
+{
+	return C_Beklauen(52,80);
+};
+
+func void DIA_Garwig_PICKPOCKET_Info()
+{
+	Info_ClearChoices(DIA_Garwig_PICKPOCKET);
+	Info_AddChoice(DIA_Garwig_PICKPOCKET,Dialog_Back,DIA_Garwig_PICKPOCKET_BACK);
+	Info_AddChoice(DIA_Garwig_PICKPOCKET,DIALOG_PICKPOCKET,DIA_Garwig_PICKPOCKET_DoIt);
+};
+
+func void DIA_Garwig_PICKPOCKET_DoIt()
+{
+	B_Beklauen();
+	Info_ClearChoices(DIA_Garwig_PICKPOCKET);
+};
+
+func void DIA_Garwig_PICKPOCKET_BACK()
+{
+	Info_ClearChoices(DIA_Garwig_PICKPOCKET);
+};
+

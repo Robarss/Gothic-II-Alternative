@@ -1,0 +1,364 @@
+
+instance DIA_Agon_EXIT(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 999;
+	condition = DIA_Agon_EXIT_Condition;
+	information = DIA_Agon_EXIT_Info;
+	permanent = TRUE;
+	description = Dialog_Ende;
+};
+
+
+func int DIA_Agon_EXIT_Condition()
+{
+	return TRUE;
+};
+
+func void DIA_Agon_EXIT_Info()
+{
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Agon_Hello(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 2;
+	condition = DIA_Agon_Hello_Condition;
+	information = DIA_Agon_Hello_Info;
+	permanent = FALSE;
+	important = TRUE;
+};
+
+
+func int DIA_Agon_Hello_Condition()
+{
+	if(Npc_IsInState(self,ZS_Talk) && (MIS_SCHNITZELJAGD == FALSE) && (other.guild == GIL_NOV))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Agon_Hello_Info()
+{
+	AI_Output(self,other,"DIA_Agon_Hello_07_00");	//(opovržlivě) Co chceš?
+};
+
+
+instance DIA_Agon_Wurst(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 2;
+	condition = DIA_Agon_Wurst_Condition;
+	information = DIA_Agon_Wurst_Info;
+	permanent = FALSE;
+	description = "Tumáš, mám tu pro tebe skopovou klobásu.";
+};
+
+
+func int DIA_Agon_Wurst_Condition()
+{
+	if((Kapitel == 1) && (MIS_GoraxEssen == LOG_Running) && (Npc_HasItems(self,ItFo_Schafswurst) == 0) && (Npc_HasItems(other,ItFo_Schafswurst) >= 1))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Agon_Wurst_Info()
+{
+	var string NovizeText;
+	var string NovizeLeft;
+	AI_Output(other,self,"DIA_Agon_Wurst_15_00");	//Tumáš, mám tu pro tebe skopovou klobásu.
+	AI_Output(self,other,"DIA_Agon_Wurst_07_01");	//Ovčí klobása, ovčí sýr... ovčí mléko... už mi to všechno leze krkem.
+	AI_Output(other,self,"DIA_Agon_Wurst_15_02");	//Tak chceš tu klobásu, nebo ne?
+	AI_Output(self,other,"DIA_Agon_Wurst_07_03");	//Ale no tak ho sem dej!
+	B_GiveInvItems(other,self,ItFo_Schafswurst,1);
+	Wurst_Gegeben = Wurst_Gegeben + 1;
+	CreateInvItems(self,ItFo_Sausage,1);
+	B_UseItem(self,ItFo_Sausage);
+	NovizeLeft = IntToString(13 - Wurst_Gegeben);
+	NovizeText = ConcatStrings(NovizeLeft,PRINT_NovizenLeft);
+	AI_PrintScreen(NovizeText,-1,YPOS_GoldGiven,FONT_ScreenSmall,2);
+};
+
+
+instance DIA_Agon_New(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 1;
+	condition = DIA_Agon_New_Condition;
+	information = DIA_Agon_New_Info;
+	permanent = FALSE;
+	description = "Jsem tady nový.";
+};
+
+
+func int DIA_Agon_New_Condition()
+{
+	if((MIS_SCHNITZELJAGD == FALSE) && (other.guild == GIL_NOV))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Agon_New_Info()
+{
+	AI_Output(other,self,"DIA_Agon_New_15_00");	//Jsem tady nový.
+	AI_Output(self,other,"DIA_Agon_New_07_01");	//To vidím.
+	AI_Output(self,other,"DIA_Agon_New_07_02");	//Jestli zatím nemáš co na práci, promluv si s Parlanem. On už ti nějakou dá.
+};
+
+
+instance DIA_Agon_YouAndBabo(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 1;
+	condition = DIA_Agon_YouAndBabo_Condition;
+	information = DIA_Agon_YouAndBabo_Info;
+	permanent = FALSE;
+	description = "Co se stalo mezi tebou a Babem?";
+};
+
+
+func int DIA_Agon_YouAndBabo_Condition()
+{
+	if(Npc_KnowsInfo(other,DIA_Opolos_Monastery) && (MIS_SCHNITZELJAGD == FALSE) && (other.guild == GIL_NOV))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Agon_YouAndBabo_Info()
+{
+	AI_Output(other,self,"DIA_Agon_YouAndBabo_15_00");	//Co se stalo mezi tebou a Babem?
+	AI_Output(self,other,"DIA_Agon_YouAndBabo_07_01");	//Neměl bys věřit všemu, co uslyšíš.
+	AI_Output(self,other,"DIA_Agon_YouAndBabo_07_02");	//(neústupně) Řekněme si jedno: půjdu svou vlastní cestou. Tou, kterou mi předurčil Innos.
+	AI_Output(self,other,"DIA_Agon_YouAndBabo_07_03");	//Nedovolím nikomu stát mi v cestě, a určitě ne tomu jelimánkovi Babovi.
+	Info_ClearChoices(DIA_Agon_YouAndBabo);
+	Info_AddChoice(DIA_Agon_YouAndBabo,"Neměli bychom my novicové držet pohromadě?",DIA_Agon_YouAndBabo_AllTogether);
+	Info_AddChoice(DIA_Agon_YouAndBabo,"Innos sám ví, jakou cestou bychom se měli vydat.",DIA_Agon_YouAndBabo_InnosWay);
+	Info_AddChoice(DIA_Agon_YouAndBabo,"Vycházíme spolu docela dobře.",DIA_Agon_YouAndBabo_Understand);
+};
+
+func void DIA_Agon_YouAndBabo_AllTogether()
+{
+	AI_Output(other,self,"DIA_Agon_YouAndBabo_AllTogether_15_00");	//Neměli bychom my novicové držet pohromadě?
+	AI_Output(self,other,"DIA_Agon_YouAndBabo_AllTogether_07_01");	//Vy ostatní si držte pohromadě, jak chcete.
+	AI_Output(self,other,"DIA_Agon_YouAndBabo_AllTogether_07_02");	//Ale prosím, neplýtvej mým časem. (chladně) A nestav se mi do cesty.
+	Info_ClearChoices(DIA_Agon_YouAndBabo);
+};
+
+func void DIA_Agon_YouAndBabo_InnosWay()
+{
+	AI_Output(other,self,"DIA_Agon_YouAndBabo_InnosWay_15_00");	//Innos sám ví, jakou cestou bychom se měli vydat.
+	AI_Output(self,other,"DIA_Agon_YouAndBabo_InnosWay_07_01");	//Moje rodina vždycky stála vysoko v Innosově přízni a na tom se nic nezmění.
+	Info_ClearChoices(DIA_Agon_YouAndBabo);
+};
+
+func void DIA_Agon_YouAndBabo_Understand()
+{
+	AI_Output(other,self,"DIA_Agon_YouAndBabo_Understand_15_00");	//Vycházíme spolu docela dobře.
+	AI_Output(self,other,"DIA_Agon_YouAndBabo_Understand_07_01");	//To doufám. Až budu mágem, můžu za tebe ztratit slůvko.
+	Info_ClearChoices(DIA_Agon_YouAndBabo);
+};
+
+
+instance DIA_Agon_GetHerb(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 1;
+	condition = DIA_Agon_GetHerb_Condition;
+	information = DIA_Agon_GetHerb_Info;
+	permanent = TRUE;
+	description = "Co tady pěstujete?";
+};
+
+
+func int DIA_Agon_GetHerb_Condition()
+{
+	if(MIS_SCHNITZELJAGD == FALSE)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Agon_GetHerb_Info()
+{
+	AI_Output(other,self,"DIA_Agon_GetHerb_15_00");	//Co tady pěstujete?
+	AI_Output(self,other,"DIA_Agon_GetHerb_07_01");	//Snažíme se vypěstovat léčivé byliny, aby mohl mistr Neoras vařit lektvary.
+};
+
+
+instance DIA_Agon_GolemDead(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 1;
+	condition = DIA_Agon_GolemDead_Condition;
+	information = DIA_Agon_GolemDead_Info;
+	permanent = FALSE;
+	important = TRUE;
+};
+
+
+func int DIA_Agon_GolemDead_Condition()
+{
+	if((MIS_SCHNITZELJAGD == LOG_Running) && Npc_IsDead(Magic_Golem))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Agon_GolemDead_Info()
+{
+	AI_Output(self,other,"DIA_Agon_GolemDead_07_00");	//(vítězně) Jdeš pozdě!
+	AI_Output(self,other,"DIA_Agon_GolemDead_07_01");	//Byl jsem tady první! Vyhrál jsem!
+	Info_ClearChoices(DIA_Agon_GolemDead);
+	Info_AddChoice(DIA_Agon_GolemDead,"(výhrůžně) Jenom pokud se odsud dostaneš živý.",DIA_Agon_GolemDead_NoWay);
+	Info_AddChoice(DIA_Agon_GolemDead,"Drž hubu!",DIA_Agon_GolemDead_ShutUp);
+	Info_AddChoice(DIA_Agon_GolemDead,"Gratuluji, vážně sis to zasloužil.",DIA_Agon_GolemDead_Congrat);
+};
+
+func void DIA_Agon_GolemDead_NoWay()
+{
+	AI_Output(other,self,"DIA_Agon_GolemDead_NoWay_15_00");	//(výhrůžně) Jenom pokud se odsud dostaneš živý.
+	AI_Output(self,other,"DIA_Agon_GolemDead_NoWay_07_01");	//Chceš mě zabít? To se ti nikdy nepovede.
+	AI_StopProcessInfos(self);
+	B_Attack(self,other,AR_NONE,1);
+};
+
+func void DIA_Agon_GolemDead_ShutUp()
+{
+	AI_Output(other,self,"DIA_Agon_GolemDead_ShutUp_15_00");	//Drž hubu!
+	AI_Output(self,other,"DIA_Agon_GolemDead_ShutUp_07_01");	//(výsměšně) Nemáš nárok, prohrál jsi! Přiznej si to.
+	AI_Output(self,other,"DIA_Agon_GolemDead_ShutUp_07_02");	//Jenom mně bylo osudem určeno stát se mágem.
+	Info_ClearChoices(DIA_Agon_GolemDead);
+	Info_AddChoice(DIA_Agon_GolemDead,"Osud ti určil leda políbit mi zadek. Truhla je moje.",DIA_Agon_GolemDead_ShutUp_MyChest);
+	Info_AddChoice(DIA_Agon_GolemDead,"Vyhrál jsi.",DIA_Agon_GolemDead_ShutUp_YouWin);
+};
+
+func void DIA_Agon_GolemDead_ShutUp_MyChest()
+{
+	AI_Output(other,self,"DIA_Agon_GolemDead_ShutUp_MyChest_15_00");	//Osud ti určil leda políbit mi zadek. Truhla je moje.
+	AI_Output(self,other,"DIA_Agon_GolemDead_ShutUp_MyChest_07_01");	//(rozzlobeně) Ne, to teda ne, to tě spíš zabiju.
+	AI_StopProcessInfos(self);
+	B_Attack(self,other,AR_NONE,1);
+};
+
+func void DIA_Agon_GolemDead_ShutUp_YouWin()
+{
+	AI_Output(other,self,"DIA_Agon_GolemDead_ShutUp_YouWin_15_00");	//Vyhrál jsi.
+	AI_Output(self,other,"DIA_Agon_GolemDead_ShutUp_YouWin_07_01");	//(zběsile) Ne, mě neošálíš. Snažíš se mě zbavit.
+	AI_Output(self,other,"DIA_Agon_GolemDead_ShutUp_YouWin_07_02");	//To nedopustím!
+	AI_StopProcessInfos(self);
+	B_Attack(self,other,AR_NONE,1);
+};
+
+func void DIA_Agon_GolemDead_Congrat()
+{
+	AI_Output(other,self,"DIA_Agon_GolemDead_Congrat_15_00");	//Gratuluji, vážně sis to zasloužil.
+	AI_Output(self,other,"DIA_Agon_GolemDead_Congrat_07_01");	//(nedůvěřivě) Co to má znamenat? Co máš za lubem?
+	AI_Output(other,self,"DIA_Agon_GolemDead_Congrat_15_02");	//O čem to mluvíš?
+	AI_Output(self,other,"DIA_Agon_GolemDead_Congrat_07_03");	//(nervózně) Chceš mě zabít a nechat si všechnu slávu pro sebe!
+	AI_Output(self,other,"DIA_Agon_GolemDead_Congrat_07_04");	//To se ti nikdy nepodaří!
+	AI_StopProcessInfos(self);
+	B_Attack(self,other,AR_NONE,1);
+};
+
+
+instance DIA_Agon_GolemLives(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 1;
+	condition = DIA_Agon_GolemLives_Condition;
+	information = DIA_Agon_GolemLives_Info;
+	permanent = FALSE;
+	important = TRUE;
+};
+
+
+func int DIA_Agon_GolemLives_Condition()
+{
+	if((MIS_SCHNITZELJAGD == LOG_Running) && (Npc_IsDead(Magic_Golem) == FALSE))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Agon_GolemLives_Info()
+{
+	AI_Output(self,other,"DIA_Agon_GolemLives_07_00");	//(překvapeně) Našel jsi ten úkryt přede mnou. To nejde...
+	AI_Output(self,other,"DIA_Agon_GolemLives_07_01");	//(odhodlaně) Tak to nemůže zůstat! To nedovolím.
+	AI_Output(self,other,"DIA_Agon_GolemLives_07_02");	//Dokonce nikdy nenajdou tvou mrtvolu.
+	AI_StopProcessInfos(self);
+	B_Attack(self,other,AR_NONE,0);
+};
+
+
+instance DIA_Agon_Perm(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 2;
+	condition = DIA_Agon_Perm_Condition;
+	information = DIA_Agon_Perm_Info;
+	permanent = TRUE;
+	description = "Tak jak to jde?";
+};
+
+
+func int DIA_Agon_Perm_Condition()
+{
+	if((Kapitel >= 3) && (other.guild != GIL_KDF))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Agon_Perm_Info()
+{
+	AI_Output(other,self,"DIA_Agon_Perm_15_00");	//Tak jak to jde?
+	if(other.guild == GIL_PAL)
+	{
+		AI_Output(self,other,"DIA_Agon_Perm_07_01");	//Ach - díky za tvůj zájem, sire paladine. Práce se mi líbí a jsem si jist, že brzy budu vybrán mezi mágy.
+	}
+	else
+	{
+		AI_Output(self,other,"DIA_Agon_Perm_07_02");	//(arogantně) Tady v Innosově klášteře jsi jenom hostem. Měl by ses tedy podle toho chovat a nerušit mě v mé práci. Přeji hezký den.
+	};
+};
+
+
+instance DIA_Agon_PICKPOCKET(C_Info)
+{
+	npc = NOV_603_Agon;
+	nr = 900;
+	condition = DIA_Agon_PICKPOCKET_Condition;
+	information = DIA_Agon_PICKPOCKET_Info;
+	permanent = TRUE;
+	description = Pickpocket_40;
+};
+
+
+func int DIA_Agon_PICKPOCKET_Condition()
+{
+	return C_Beklauen(23,12);
+};
+
+func void DIA_Agon_PICKPOCKET_Info()
+{
+	Info_ClearChoices(DIA_Agon_PICKPOCKET);
+	Info_AddChoice(DIA_Agon_PICKPOCKET,Dialog_Back,DIA_Agon_PICKPOCKET_BACK);
+	Info_AddChoice(DIA_Agon_PICKPOCKET,DIALOG_PICKPOCKET,DIA_Agon_PICKPOCKET_DoIt);
+};
+
+func void DIA_Agon_PICKPOCKET_DoIt()
+{
+	B_Beklauen();
+	Info_ClearChoices(DIA_Agon_PICKPOCKET);
+};
+
+func void DIA_Agon_PICKPOCKET_BACK()
+{
+	Info_ClearChoices(DIA_Agon_PICKPOCKET);
+};
+

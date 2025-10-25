@@ -1,0 +1,369 @@
+
+instance DIA_Gritta_EXIT(C_Info)
+{
+	npc = VLK_418_Gritta;
+	nr = 999;
+	condition = DIA_Gritta_EXIT_Condition;
+	information = DIA_Gritta_EXIT_Info;
+	permanent = TRUE;
+	description = Dialog_Ende;
+};
+
+
+func int DIA_Gritta_EXIT_Condition()
+{
+	if(Kapitel <= 2)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Gritta_EXIT_Info()
+{
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Gritta_PICKPOCKET(C_Info)
+{
+	npc = VLK_418_Gritta;
+	nr = 900;
+	condition = DIA_Gritta_PICKPOCKET_Condition;
+	information = DIA_Gritta_PICKPOCKET_Info;
+	permanent = TRUE;
+	description = Pickpocket_20_Female;
+};
+
+
+func int DIA_Gritta_PICKPOCKET_Condition()
+{
+	return C_Beklauen(20,20);
+};
+
+func void DIA_Gritta_PICKPOCKET_Info()
+{
+	Info_ClearChoices(DIA_Gritta_PICKPOCKET);
+	Info_AddChoice(DIA_Gritta_PICKPOCKET,Dialog_Back,DIA_Gritta_PICKPOCKET_BACK);
+	Info_AddChoice(DIA_Gritta_PICKPOCKET,DIALOG_PICKPOCKET,DIA_Gritta_PICKPOCKET_DoIt);
+};
+
+func void DIA_Gritta_PICKPOCKET_DoIt()
+{
+	B_Beklauen();
+	Info_ClearChoices(DIA_Gritta_PICKPOCKET);
+};
+
+func void DIA_Gritta_PICKPOCKET_BACK()
+{
+	Info_ClearChoices(DIA_Gritta_PICKPOCKET);
+};
+
+
+instance DIA_Gritta_Hello(C_Info)
+{
+	npc = VLK_418_Gritta;
+	nr = 10;
+	condition = DIA_Gritta_Hello_Condition;
+	information = DIA_Gritta_Hello_Info;
+	permanent = FALSE;
+	important = TRUE;
+};
+
+
+func int DIA_Gritta_Hello_Condition()
+{
+	if(Npc_IsInState(self,ZS_Talk) && (self.aivar[AIV_TalkedToPlayer] == FALSE))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Gritta_Hello_Info()
+{
+	AI_Output(self,other,"DIA_Gritta_Hello_16_00");	//Co chceš, cizinče? Jestli jsi přišel žebrat, pak tě musím zklamat - jsem jenom chudá vdova.
+	AI_Output(self,other,"DIA_Gritta_Hello_16_01");	//Jmenuji se Gritta. Od té doby, co mi zemřel manžel, vedu domácnost svému strýci Thorbenovi.
+};
+
+
+instance DIA_Gritta_WantsMoney(C_Info)
+{
+	npc = VLK_418_Gritta;
+	nr = 2;
+	condition = DIA_Gritta_WantsMoney_Condition;
+	information = DIA_Gritta_WantsMoney_Info;
+	permanent = FALSE;
+	description = "Posílá mě Matteo, prý mu stále dlužíš nějaké peníze.";
+};
+
+
+func int DIA_Gritta_WantsMoney_Condition()
+{
+	if(MIS_Matteo_Gold == LOG_Running)
+	{
+		return TRUE;
+	};
+};
+
+
+var int Gritta_WantPay;
+var int Gritta_Threatened;
+
+func void DIA_Gritta_WantsMoney_Info()
+{
+	AI_Output(other,self,"DIA_Gritta_WantsMoney_15_00");	//Posílá mě Matteo, prý mu stále dlužíš nějaké peníze.
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_16_01");	//On chce své peníze? A proč? Zboží, které mi dodal, bylo vadné, špatně utkané a ještě hůře sešité.
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_16_02");	//A viděl jsi ty barvy? Vůbec se nepodobaly těm, jaké jsem si objednala! Je to podvod, nic jiného!
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_16_03");	//Řeknu ti, že kdyby byl naživu můj muž, Matteo by si nikdy nic takového nedovolil. Ach, můj ubohý manžel...
+	Info_ClearChoices(DIA_Gritta_WantsMoney);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Nech toho. Kde jsou ty prachy?",DIA_Gritta_WantsMoney_WhereMoney);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Pokračovat...",DIA_Gritta_WantsMoney_Continue01);
+};
+
+func void DIA_Gritta_WantsMoney_Continue01()
+{
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_continue01_16_00");	//...byl to takový dobrák. Pohledný, pracovitý a džentlmen ze staré školy. Nic nám nechybělo - byli jsme bohatí a šťastní...
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_Continue01_16_01");	//...občas nás dokonce zvali i do lepší společnosti. Samé slavnosti, krásné šaty a účesy...
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_Continue01_16_02");	//...vybraná jídla a zdvořilá konverzace. Všechno bylo tenkrát lepší. Tehdy by si nikdo nedovolil urážet nebohou vdovu takovými...
+	Info_ClearChoices(DIA_Gritta_WantsMoney);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Nech toho. Kde jsou ty prachy?",DIA_Gritta_WantsMoney_WhereMoney);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Pokračovat...",DIA_Gritta_WantsMoney_Continue02);
+};
+
+func void DIA_Gritta_WantsMoney_Continue02()
+{
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_continue02_16_00");	//...směšnými tvrzeními. Co si jen počnu? Moje renta stačí jen taktak na přežití a časy jsou čím dál horší. Je to vidět všude...
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_Continue02_16_01");	//...lidé musí šetřit, škudlit a utahovat opasky. Už celé týdny do města nedorazila žádná loď. Můj muž býval kapitánem obchodní lodi - vlastně ji zároveň i vlastnil...
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_Continue02_16_02");	//...ze svých cest mi vždycky vozil dárky - nádherné látky z pevniny, vzácné koření z jižních zemí...
+	Info_ClearChoices(DIA_Gritta_WantsMoney);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Nech toho. Kde jsou ty prachy?",DIA_Gritta_WantsMoney_WhereMoney);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Pokračovat...",DIA_Gritta_WantsMoney_Continue03);
+};
+
+func void DIA_Gritta_WantsMoney_Continue03()
+{
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_continue03_16_00");	//...většina lidí o podobných věcech nikdy neslyšela. Ale jednoho dne jsem dostala zprávu, že Gritta se potopila - ano, naše loď nesla toto jméno, můj muž tím dával najevo...
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_Continue03_16_01");	//...lásku, jakou ke mně choval. Plakala jsem a modlila se, aby můj drahý to neštěstí přežil, každý den jsem doufala, že o něm třeba uslyším, ale má touha byla marná...
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_Continue04_16_02");	//...kéž se Innos smiluje nad jeho duší. Ať odpočívá v pokoji. Od té doby tu přebývám v těchto skromných podmínkách, a teď mě ten bezcitný, bezohledný Matteo...
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_Continue04_16_03");	//...chce připravit o poslední zbyteček mých celoživotních úspor. Prosím, smiluj se nad ubohou ženou. Kdyby byl naživu můj muž, nikdy by si nic takového nedovolil. Ach, můj ubohý manžel...
+	Info_ClearChoices(DIA_Gritta_WantsMoney);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Přestaň s tím. Kde je to zlato?",DIA_Gritta_WantsMoney_WhereMoney);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Pokračovat...",DIA_Gritta_WantsMoney_Continue01);
+};
+
+func void DIA_Gritta_WantsMoney_WhereMoney()
+{
+	AI_Output(other,self,"DIA_Gritta_WantsMoney_WhereMoney_15_00");	//Přestaň s tím. Kde je to zlato?
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_WhereMoney_16_01");	//(vzdorovitě) Ale já to zlato nemám, jsem jenom chudá vdova!
+	Info_ClearChoices(DIA_Gritta_WantsMoney);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Naval prašule, nebo ti jednu vlepím!",DIA_Gritta_WantsMoney_BeatUp);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Tak to asi budeme muset prodat nějaký tvůj majetek...",DIA_Gritta_WantsMoney_EnoughStuff);
+	Info_AddChoice(DIA_Gritta_WantsMoney,"Tak já tu sumu zaplatím za tebe.",DIA_Gritta_WantsMoney_IWillPay);
+};
+
+func void DIA_Gritta_WantsMoney_EnoughStuff()
+{
+	AI_Output(other,self,"DIA_Gritta_WantsMoney_EnoughStuff_15_00");	//Tak prostě prodej pár těch svých hadříků. Určitě jich máš ve skříni celou hromadu.
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_EnoughStuff_16_01");	//Jak se opovažuješ, ty nevychovanče! No tak dobře, tady máš to zlato.
+	B_GiveInvItems(self,other,ItMi_Gold,100);
+	AI_Output(other,self,"DIA_Gritta_WantsMoney_EnoughStuff_15_02");	//(úšklebek) Vida, ani to nebolelo.
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_EnoughStuff_16_03");	//(jedovatě) A teď prosím odejdi z mého domu.
+	Gritta_GoldGiven = TRUE;
+	AI_StopProcessInfos(self);
+};
+
+func void DIA_Gritta_WantsMoney_IWillPay()
+{
+	AI_Output(other,self,"DIA_Gritta_WantsMoney_IWillPay_15_00");	//Tak já tu sumu zaplatím za tebe.
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_IWillPay_16_01");	//Opravdu bys to pro mě udělal? Ach, já věděla, že nejsi takový nenažraný hajzl jako Matteo!
+	AI_Output(other,self,"DIA_Gritta_WantsMoney_IWillPay_15_02");	//No jo, to nic.
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_IWillPay_16_03");	//Vrať se, až to zařídíš - chci se ti nějak odvděčit.
+	Info_ClearChoices(DIA_Gritta_WantsMoney);
+	Gritta_WantPay = TRUE;
+};
+
+func void DIA_Gritta_WantsMoney_BeatUp()
+{
+	AI_Output(other,self,"DIA_Gritta_WantsMoney_BeatUp_15_00");	//(hrozivě) Naval prachy, nebo ti jednu vlepím!
+	AI_Output(self,other,"DIA_Gritta_WantsMoney_BeatUp_16_01");	//(vyzývavě) Jsi jenom prachsprostý lump. Jen pojď, vytas zbraň a já zavolám stráže!
+	Gritta_Threatened = TRUE;
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Gritta_WINE(C_Info)
+{
+	npc = VLK_418_Gritta;
+	nr = 2;
+	condition = DIA_Gritta_WINE_Condition;
+	information = DIA_Gritta_WINE_Info;
+	permanent = FALSE;
+	important = TRUE;
+};
+
+
+func int DIA_Gritta_WINE_Condition()
+{
+	if(Npc_IsInState(self,ZS_Talk) && (Gritta_WantPay == TRUE) && (MIS_Matteo_Gold == LOG_SUCCESS) && (Npc_HasItems(self,ItMi_Gold) >= 100))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Gritta_WINE_Info()
+{
+	AI_Output(self,other,"DIA_Gritta_WINE_16_00");	//To od tebe bylo opravdu šlechetné, žes to za mě zaplatil. Chtěla bych se ti nějak odměnit.
+	AI_Output(self,other,"DIA_Gritta_WINE_16_01");	//Tuhle láhev vína mi manžel - nechť Innos dopřeje pokoj jeho duši - přivezl z jižních ostrovů.
+	AI_Output(self,other,"DIA_Gritta_WINE_16_02");	//Také jsem to všude rozhlásila. Aspoň někdo tu má v těle kouska cti.
+	AI_Output(other,self,"DIA_Gritta_WINE_15_03");	//No jo, to nic.
+	B_GivePlayerXP(XP_PayForGritta);
+	B_GiveInvItems(self,other,ItFo_Wine,1);
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Gritta_PERM(C_Info)
+{
+	npc = VLK_418_Gritta;
+	nr = 3;
+	condition = DIA_Gritta_PERM_Condition;
+	information = DIA_Gritta_PERM_Info;
+	permanent = TRUE;
+	important = TRUE;
+};
+
+
+func int DIA_Gritta_PERM_Condition()
+{
+	if(Npc_IsInState(self,ZS_Talk) && Npc_KnowsInfo(other,DIA_Gritta_WantsMoney) && (Kapitel < 3))
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Gritta_PERM_Info()
+{
+	if(Npc_KnowsInfo(other,DIA_Gritta_WINE) && (Npc_HasItems(self,ItMi_Gold) >= 100))
+	{
+		AI_Output(self,other,"DIA_Gritta_PERM_16_00");	//Dokud jsou ve městě muži jako ty, stále mohu v srdci chovat naději, že se vše v dobré obrátí.
+	}
+	else if((Gritta_WantPay == TRUE) && (Npc_HasItems(self,ItMi_Gold) >= 100))
+	{
+		AI_Output(self,other,"DIA_Gritta_PERM_16_01");	//Vrať se, až urovnáš tu záležitost s Matteem.
+	}
+	else if((Gritta_Threatened == TRUE) && (Npc_HasItems(self,ItMi_Gold) >= 100))
+	{
+		AI_Output(self,other,"DIA_Gritta_PERM_16_02");	//Co na mě tak blbě čumíš? Stejně si na mě netroufneš zaútočit!
+	}
+	else
+	{
+		AI_Output(self,other,"DIA_Gritta_PERM_16_03");	//Co ještě chceš? Moje zlato jsi už dostal, tak vypadni!
+	};
+	AI_StopProcessInfos(self);
+};
+
+
+instance DIA_Gritta_Kap3_EXIT(C_Info)
+{
+	npc = VLK_418_Gritta;
+	nr = 999;
+	condition = DIA_Gritta_Kap3_EXIT_Condition;
+	information = DIA_Gritta_Kap3_EXIT_Info;
+	permanent = TRUE;
+	description = Dialog_Ende;
+};
+
+
+func int DIA_Gritta_Kap3_EXIT_Condition()
+{
+	if(Kapitel >= 3)
+	{
+		return TRUE;
+	};
+};
+
+func void DIA_Gritta_Kap3_EXIT_Info()
+{
+	AI_StopProcessInfos(self);
+};
+
+
+var int GrittaXP_Once;
+
+instance DIA_Gritta_Perm3U4U5(C_Info)
+{
+	npc = VLK_418_Gritta;
+	nr = 31;
+	condition = DIA_Gritta_Perm3U4U5_Condition;
+	information = DIA_Gritta_Perm3U4U5_Info;
+	permanent = TRUE;
+	description = "Jak se vede?";
+};
+
+
+func int DIA_Gritta_Perm3U4U5_Condition()
+{
+	return TRUE;
+};
+
+func void DIA_Gritta_Perm3U4U5_Info()
+{
+	AI_Output(other,self,"DIA_Gritta_Perm3U4U5_15_00");	//Jak se vede?
+	if(Kapitel == 3)
+	{
+		if(MIS_RescueBennet != LOG_SUCCESS)
+		{
+			AI_Output(self,other,"DIA_Gritta_Perm3U4U5_16_01");	//Všecko jde od desíti k pěti. Ať se podíváš, kam se podíváš, všude vládne zločin a násilí. Jen si představ - dokonce zabili jednoho z paladinů!
+			Info_ClearChoices(DIA_Gritta_Perm3U4U5);
+			Info_AddChoice(DIA_Gritta_Perm3U4U5,Dialog_Back,DIA_Gritta_Perm3U4U5_BACK);
+			Info_AddChoice(DIA_Gritta_Perm3U4U5,"To je válka - takové věci se stávají.",DIA_Gritta_Perm3U4U5_War);
+			Info_AddChoice(DIA_Gritta_Perm3U4U5,"To bude v pořádku.",DIA_Gritta_Perm3U4U5_TurnsGood);
+			Info_AddChoice(DIA_Gritta_Perm3U4U5,"Co jsi zaslechla?",DIA_Gritta_Perm3U4U5_Rumors);
+		}
+		else
+		{
+			AI_Output(self,other,"DIA_Gritta_Perm3U4U5_16_02");	//Ach, lord Hagen toho žoldáka pustil - to mě tak dojalo!
+			AI_Output(other,self,"DIA_Gritta_Perm3U4U5_15_03");	//A co to má společného s tebou?
+			AI_Output(self,other,"DIA_Gritta_Perm3U4U5_16_04");	//Jen se nad tím zamysli. Věříš, že by žoldáci jen tak stáli a dívali se, jak jim věší kamaráda?
+			AI_Output(self,other,"DIA_Gritta_Perm3U4U5_16_05");	//Určitě by se ho pokusili osvobodit, a z toho by koukalo pořádné krveprolití. Mohu tedy pouze děkovat Innosovi.
+		};
+	}
+	else if(Kapitel == 5)
+	{
+		AI_Output(self,other,"DIA_Gritta_Perm3U4U5_16_06");	//Paladinové jsou připraveni a vypadá to, že se brzy vydají na cestu.
+	}
+	else
+	{
+		AI_Output(self,other,"DIA_Gritta_Perm3U4U5_16_07");	//Všechno při starém, ale nechci si stěžovat.
+	};
+};
+
+func void DIA_Gritta_Perm3U4U5_BACK()
+{
+	Info_ClearChoices(DIA_Gritta_Perm3U4U5);
+};
+
+func void DIA_Gritta_Perm3U4U5_War()
+{
+	AI_Output(other,self,"DIA_Gritta_Perm3U4U5_War_15_00");	//To je válka - takové věci se stávají.
+	AI_Output(self,other,"DIA_Gritta_Perm3U4U5_War_16_01");	//Ano, za všechno může tahle strašná válka. Každý nějak trpí a zajímá ho, jak se s tím vším vypořádají.
+	AI_Output(self,other,"DIA_Gritta_Perm3U4U5_War_16_02");	//Občas se ptám sama sebe, zač nás Innos takhle trestá.
+};
+
+func void DIA_Gritta_Perm3U4U5_TurnsGood()
+{
+	AI_Output(other,self,"DIA_Gritta_Perm3U4U5_TurnsGood_15_00");	//To bude v pořádku.
+	AI_Output(self,other,"DIA_Gritta_Perm3U4U5_TurnsGood_16_01");	//To je od tebe hezké, že mě chceš povzbudit.
+	if(GrittaXP_Once == FALSE)
+	{
+		B_GivePlayerXP(XP_Ambient);
+		GrittaXP_Once = TRUE;
+	};
+};
+
+func void DIA_Gritta_Perm3U4U5_Rumors()
+{
+	AI_Output(other,self,"DIA_Gritta_Perm3U4U5_Rumors_15_00");	//Co jsi zaslechla?
+	AI_Output(self,other,"DIA_Gritta_Perm3U4U5_Rumors_16_01");	//Jenom to, co si vyprávějí lidé na ulici.
+	AI_Output(self,other,"DIA_Gritta_Perm3U4U5_Rumors_16_02");	//Prý už chytli toho vraha, ale neřeknu ti, jestli je to pravda.
+};
+
